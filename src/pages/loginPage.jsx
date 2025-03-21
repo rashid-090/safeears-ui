@@ -144,7 +144,7 @@ const LoginPage = () => {
             <>
               Don't have an account?{" "}
               <button
-                onClick={() => setAuthMethod("singup")}
+                onClick={() => setAuthMethod("signup")}
                 className="font-semibold text-blue-500 hover:underline"
               >
                 Sign Up
