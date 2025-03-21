@@ -65,9 +65,10 @@ const SingleProductOnCheckOut = ({ item, cartId }) => {
         <div className="divide-y-2 space-y-10">
           <div className="flex flex-col md:flex-row gap-5 items-center">
             <div className="overflow-hidden h-full w-full md:h-48 md:w-48 relative rounded-2xl">
+           
               <img
                 className="w-full h-full object-cover rounded-2xl hover:opacity-90 duration-300"
-                src={prod1}
+                src={`${cloudinary}/${item.product.imageURL}`}
                 alt=""
                 loading="lazy"
               />

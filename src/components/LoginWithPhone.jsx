@@ -134,7 +134,7 @@ const LoginWithPhone = () => {
 
     return (
         <div className="flex flex-col items-center justify-center p-4">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-6">Login with Mobile Number</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-6">Login/Signup<br/> with Mobile Number</h3>
 
             {/* Phone number input with country code set to India */}
             {!isOtpSent && !isOtpVerified && (

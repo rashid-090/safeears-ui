@@ -115,7 +115,7 @@ const LoginPage = () => {
             </button>
             {error && <p className="my-2 text-red-400">{error}</p>}
             <p
-              className=" text-sm   hover:underline hover:cursor-pointer"
+              className=" text-sm  text-blue-500 mt-2 underline hover:cursor-pointer"
               onClick={() => setAuthMethod("loginWithPhone")}
             >
               Login with Phone Number
@@ -152,6 +152,12 @@ const LoginPage = () => {
             </>
           ) :authMethod==="signup"? (
             <>
+               <p
+              className=" text-sm text-blue-500 mb-2 underline hover:cursor-pointer"
+              onClick={() => setAuthMethod("loginWithPhone")}
+            >
+              Signup with Phone Number
+            </p>
               Already have an account?{" "}
               <button
                 onClick={() => setAuthMethod("login")}
