@@ -115,9 +115,9 @@ const ReviewsList = ({ productId, currentUserId ,flag, setHasRated }) => {
                                                 color2={"#FFD700"}
                                                 edit={false}
                                             />
-                                            <span className="text-[10px] text-gray-500">
+                                            {/* <span className="text-[10px] text-gray-500">
                                                 {formatDate(review.createdAt)}
-                                            </span>
+                                            </span> */}
                                         </div>
                                     </div>
                                 </div>
