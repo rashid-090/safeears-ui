@@ -22,7 +22,7 @@ const menuItems = [
   { title: `shop now`, url: `/shop` },
   { title: `about us`, url: `/about-us` },
   { title: `videos`, url: `/our-videos` },
-  { title: `contact`, url: `/contact-us` },
+  { title: `contact`, url: `/contact-us `},
 ];
 
 const Header = () => {
@@ -40,7 +40,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user ,openCart} = useSelector((state) => state.user);
+  const { user, openCart } = useSelector((state) => state.user);
   const { cart, loading } = useSelector((state) => state.cart);
 
   const changeCartState = () => {
@@ -148,7 +148,7 @@ const Header = () => {
       }
     }
   ];
-  
+
 
   // Render dropdown menu items
   const renderDropdownItems = () => (
@@ -157,8 +157,14 @@ const Header = () => {
         <li key={index}>
           <Link
             to={item.path}
-            onClick={item.onClick}
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-100 flex text-nowrap items-center"
+            onClick={(e) => {
+              // e.preventDefault()
+              item.onClick()
+              setIsProfileDropdownOpen((prev)=>!prev)
+              
+            }
+            }
+            className=" px-4 py-2 text-gray-800 hover:bg-gray-100 flex text-nowrap items-center"
           >
             {item.icon}
             {item.text}
@@ -195,11 +201,10 @@ const Header = () => {
           {menuItems?.map((menu, i) => (
             <div key={i}>
               <li
-                className={`text-sm uppercase transition-all duration-200 text-white ${
-                  currentPathname === menu.url
-                    ? "border-b-0 border-white font-semibold text-xl"
-                    : "border-b-0 border-transparent font-medium"
-                }`}
+                className={`text-sm uppercase transition-all duration-200 text-white ${currentPathname === menu.url
+                  ? "border-b-0 border-white font-semibold text-xl"
+                  : "border-b-0 border-transparent font-medium"
+                  }`}
               >
                 <Link to={menu.url}>{menu.title}</Link>
               </li>
@@ -237,14 +242,7 @@ const Header = () => {
                     </div>
                   )}
                 </div>
-                <div className=" relative hover:cursor-pointer ">
-                  {cart && cart.length !== 0 && (
-                    <span className="bg-black text-white h-5 w-5 absolute -top-4 rounded-full grid place-items-center left-2 text-xs">
-                      {cart.length !== 0 && cart.length}
-                    </span>
-                  )}
-                  <BsCart4 onClick={changeCartState} className="text-3xl" />
-                </div>
+
               </div>
             </>
           ) : (
@@ -264,16 +262,7 @@ const Header = () => {
       {/* Mobile Sections */}
       <div className="flex gap-5">
         {/* Mobile Cart Icon */}
-        {user && (
-          <div className="relative lg:hidden hover:cursor-pointer">
-            {cart && cart.length !== 0 && (
-              <span className="bg-black text-white h-5 w-5 absolute -top-2 -right-2 rounded-full grid place-items-center text-xs">
-                {cart.length}
-              </span>
-            )}
-            <BsCart4 onClick={changeCartState} className="text-3xl" />
-          </div>
-        )}
+
 
         {/* Mobile Menu */}
         <AnimatePresence>
@@ -345,11 +334,30 @@ const Header = () => {
                         </div>
 
                         {/* Mobile Profile Dropdown */}
-                        {isProfileDropdownOpen && (
-                          <div className="w-full bg-gray-100 rounded-lg">
-                            {renderDropdownItems()}
-                          </div>
-                        )}
+                        <div className="w-full bg-gray-100 rounded-lg">
+                          <ul className="py-1">
+                            {profileMenuItems.slice(0, -1).map((item, index) => (
+                              <li onClick={() => {
+                                setOpen(false)
+                                navigate(`${item.path}`)
+                              }}
+                                className="px-4 py-2 cursor-pointer text-gray-800 hover:bg-gray-100 flex text-nowrap items-center" key={index}>
+
+                                {item.icon}
+                                {item.text}
+                              </li>
+                            ))}
+                            <li>
+                              <button
+                                onClick={profileMenuItems[3].onClick}
+                                className="w-full text-left flex items-center px-4 py-2 text-red-600 hover:bg-red-50 border-t border-gray-200"
+                              >
+                                {profileMenuItems[3].icon}
+                                {profileMenuItems[3].text}
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     ) : (
                       <Link
@@ -375,9 +383,19 @@ const Header = () => {
           />
         </div>
       </div>
+      <div className=" fixed bottom-24 right-7 bg-main p-2 hover:bg-main-hover rounded-full shadow-xl">
 
+        <div className="  hover:cursor-pointer  ">
+          {cart && cart.length !== 0 && (
+            <span className="bg-black text-white h-5 w-5 absolute -top-2 rounded-full grid place-items-center right-2 text-xs">
+              {cart.length !== 0 && cart.length}
+            </span>
+          )}
+          <BsCart4 onClick={changeCartState} className="text-3xl" />
+        </div>
+      </div>
       {/* Cart Modal */}
-      <CartModal  />
+      <CartModal />
     </nav>
   );
 };

@@ -11,6 +11,7 @@ import {
   getCart,
   incrementCount,
 } from "../redux/actions/user/cartActions";
+import { cloudinary } from "../utils/cloudinaryBaseUrl";
 import { useDispatch } from "react-redux";
 import CartButtonLoading from "./CartButtonLoading";
 import ConfirmModal from "./ConfirmModal";

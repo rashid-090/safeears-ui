@@ -14,7 +14,7 @@ const Shop = () => {
   const { cart, loading } = useSelector((state) => state.cart);
   return (
     <section className="w-11/12 xl:w-10/12 mx-auto h-full  overflow-hidden pt-10 md:pt-0 ">
-      <div className="flex flex-col-reverse gap-y-10 lg:flex-row h-full w-full">
+      {/* <div className="flex flex-col-reverse gap-y-10 lg:flex-row h-full w-full">
         <div className="basis-1/2 flex justify-center items-end h-full border-b-4 border-main">
           <img
             className="h-[500px] object-contain object-bottom"
@@ -24,7 +24,7 @@ const Shop = () => {
           />
         </div>
         <div className="basis-1/2 grid grid-cols-1 md:grid-cols-2 place-items-center gap-y-10">
-          {/* 1 */}
+     
           <div className="flex flex-col gap-0 items-center">
             <h3 className="uppercase font-semibold text-2xl">mega sale</h3>
             <div className="flex items-center gap-3">
@@ -50,9 +50,9 @@ const Shop = () => {
               </p>
             </div>
           </div>
-          {/* 1 */}
+     
 
-          {/* 2 */}
+   
           <div className="flex flex-col gap-0 items-center">
             <h3 className="uppercase font-semibold text-2xl">mega sale</h3>
             <div className="flex items-center gap-3">
@@ -78,7 +78,7 @@ const Shop = () => {
               </p>
             </div>
           </div>
-          {/* 2 */}
+   
 
           <div className="md:col-span-2 grid place-items-center w-full h-full ">
             <a
@@ -89,9 +89,9 @@ const Shop = () => {
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div className="py-10 xl:py-20" id="prod">
+      <div className="py-10 xl:py-20 mb-10 xl:my-10 " id="prod">
         <Products />
       </div>
 

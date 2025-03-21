@@ -65,7 +65,7 @@ const SignUp = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="pt-10 p-5 flex flex-col gap-5"
+      className="pt-10 p-5 flex flex-col gap-1"
     >
       <div>
         <input
@@ -138,7 +138,7 @@ const SignUp = ({
       </div>
       <button
         type="submit"
-        className="bg-main p-2 rounded-md text-black uppercase font-semibold mt-7"
+        className="bg-main p-2 rounded-md text-black uppercase font-semibold "
       >
         Sign Up
       </button>
