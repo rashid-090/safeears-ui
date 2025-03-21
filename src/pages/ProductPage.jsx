@@ -154,6 +154,7 @@ function ProductPage() {
                 naturalSlideWidth={100}
                 naturalSlideHeight={100}
                 totalSlides={currentImage?.length}
+                interval={3000}
                 infinite
                 isPlaying
               >
