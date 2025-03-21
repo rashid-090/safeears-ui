@@ -91,7 +91,7 @@ const Shop = () => {
         </div>
       </div> */}
 
-      <div className="py-10 xl:py-20 mb-10 xl:my-10 " id="prod">
+      <div className="mb-10" id="prod">
         <Products />
       </div>
 

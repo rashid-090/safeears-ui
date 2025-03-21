@@ -46,7 +46,7 @@ const Products = () => {
       {allProducts ? (
         allProducts?.map((dt, i) => <Product key={i} item={dt} />)
       ) : (
-        <Skeleton variant="rectangular" height={100} count={3} />
+        <p className="text-white">Loading Products....</p>
       )}
     </div>
   );
