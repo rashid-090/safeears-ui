@@ -144,7 +144,7 @@ const LoginWithPhone = () => {
                         value={phoneNumber}
                         onChange={setPhoneNumber}
                         defaultCountry="IN"
-                        className="w-full p-3 border-2 border-gray-300 rounded-md focus:ring-0"
+                        className="w-full p-3 border-2 border-gray-300 rounded-md focus:ring-0 "
                     />
                 </div>
             )}
