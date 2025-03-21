@@ -48,7 +48,7 @@ const AboutUs = () => {
             naturalSlideHeight={150}
             totalSlides={testimonials.length}
             isPlaying={true}
-            interval={5000}
+            interval={3000}
             infinite={true}
             className='relative'
           >
