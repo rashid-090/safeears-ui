@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  src: url(assets/fonts/rische-regular-webfont.woff2) format(woff2);
+  font-family: "riche-regular";
+  font-display: swap;
+}
+@font-face {
+  src: url(assets/fonts/Poppins-Light.woff2) format(woff2);
+  font-family: "poppins-light";
+  font-display: swap;
+}
+@font-face {
+  src: url(assets/fonts/Poppins-Regular.woff2) format(woff2);
+  font-family: "poppins-regular";
+  font-display: swap;
+}
+@font-face {
+  src: url(assets/fonts/Poppins-Medium.woff2) format(woff2);
+  font-family: "poppins-medium";
+  font-display: swap;
+}
+@font-face {
+  src: url(assets/fonts/Poppins-SemiBold.woff2) format(woff2);
+  font-family: "poppins-semibold";
+  font-display: swap;
+}
+@font-face {
+  src: url(assets/fonts/Poppins-Bold.woff2) format(woff2);
+  font-family: "poppins-bold";
+  font-display: swap;
+}
+
+.admin-button-fl {
+  @apply flex items-center gap-2 p-2 rounded-lg;
+}
+
+.admin-status {
+  @apply px-2 py-1 hover:bg-gray-100 hover:rounded-md cursor-pointer;
+}
+
+.admin-label {
+  @apply text-sm mt-2 font-semibold text-gray-700;
+}
+
+.admin-input {
+  @apply w-full bg-gray-100 rounded-md mt-2 py-2 px-3 text-sm outline-none border border-gray-200;
+}
+
+.admin-input-no-m {
+  @apply bg-gray-100 rounded-md py-2 px-3 text-sm outline-none border border-gray-200;
+}
+
+.admin-div {
+  @apply bg-white p-5 rounded-lg mb-5;
+}
+
+.admin-table-head {
+  @apply font-semibold p-4 text-left;
+}
+
+.admin-table-row {
+  @apply text-sm p-4;
+}
+
+:root {
+  --main-background:#fff;
+  --main-text:#000;
+}
+
+::-moz-selection {
+  color: #fff;
+  background: #e6ae4a
+}
+
+::selection {
+  color: #fff;
+  background: #e6ae4a
+}
+html{
+  scroll-behavior: smooth;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* bg-gradient-to-r from-[#007669] via-[#00726f] to-[#006b7c] */
+body{
+  color: white;
+  /* background: #020202; */
+  background: 
+    linear-gradient(#007669, #00726f), /* Gradient 1 */
+    linear-gradient(#00726f, #006b7c); /* Gradient 2 */
+  background-image: 
+    url('./assets/earwebbg.png'); /* Background image */
+  background-blend-mode: overlay; /* Ensures image and gradient blend */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  font-family: "poppins-regular", sans-serif
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+img {
+  max-width: 100%;
+}
+input{
+  background-color: transparent;
+}
+::-webkit-scrollbar{
+width: 12px;
+background: rgb(158, 155, 155);
+}
+
+::-webkit-scrollbar-thumb{
+background:#444343;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+background:#4b4b4b;
+cursor: pointer;
+}
+
+.nav-bg{
+/* From https://css.glass */
+background: #ffffff6d;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(11.9px);
+-webkit-backdrop-filter: blur(11.9px);
+}
+
+
+
+
+.cart-scroll::-webkit-scrollbar{
+  width: 5px;
+  background: rgb(177, 177, 177);
+  }
+  
+  .cart-scroll::-webkit-scrollbar-thumb{
+    background: rgb(93, 91, 91);
+  
+  }
+  
+  .cart-scroll::-webkit-scrollbar-thumb:hover{
+    background: rgb(132, 130, 130);
+  cursor: pointer;
+  }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 2px solid #d1d5db;
+    padding: 8px;
+    text-align: left;
+}
+
+
+.swiper-pagination-bullet {
+  margin-bottom: -15px !important;
+}
+.swiper-pagination-bullet-active {
+  background-color: #f8b133 !important;
+  
+}
+
+
