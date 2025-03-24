@@ -42,8 +42,14 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center">
-             <a href="http://Webboxdevelopers.com" target="_blank" className="capitalize mt-5 hover:underline text-xs xl:text-sm">designed by webboxdevelopers</a>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-5 pt-10">
+             <a href="http://Webboxdevelopers.com" target="_blank" className="capitalize hover:underline text-xs xl:text-sm">designed by webboxdevelopers</a>
+             <div className="text-xs xl:text-sm flex flex-col md:flex-row items-center gap-5 w-full md:w-fit">
+                <Link to='/terms-and-conditions' className="hover:underline">Terms of Service</Link>
+                <Link to='/privacy-policy' className="hover:underline">Privacy Policy</Link>
+                <Link to='/refund-policy' className="hover:underline">Returns & Refund Policy</Link>
+                <Link to='/shipping-policy' className="hover:underline">Shipping Policy</Link>
+             </div>
         </div>
       </div>
     </footer>

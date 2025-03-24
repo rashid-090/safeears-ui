@@ -5,12 +5,17 @@ import {earaids} from '../assets'
 import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa6";
+import { CiMail } from "react-icons/ci";
 
 
 const ContactUs = () => {
   return (
     <section className='w-11/12 xl:w-10/12 mx-auto h-full xl:h-[80vh] py-10 md:py-0 grid grid-cols-1 md:grid-cols-2 gap-y-10'>
       <div className='flex flex-col justify-center gap-5'>
+      <div className='flex items-start gap-5'>
+          <CiMail className='text-3xl'/>
+          <a href="mailto:safeearsdt@gmail.com" className='text-xl font-medium'>safeearsdt@gmail.com</a>
+        </div>
         <div className='flex items-start gap-5'>
           <IoLocationOutline className='text-3xl'/>
           <p className='text-xl font-medium'>GRAND VF PVT.LTD<br/>
@@ -19,6 +24,8 @@ const ContactUs = () => {
             KANNUR -670017<br/>
             Kerala, India</p>
         </div>
+       
+        
         <div className='flex items-start gap-5'>
           <FiPhone className='text-3xl'/>
           <div className='flex flex-col font-medium text-xl'>

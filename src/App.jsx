@@ -16,6 +16,10 @@ import {
 import { Header, Footer, Hubspot, PageLoader } from "./components";
 import HomePage from "./pages/HomePage";
 import AboutUs from "./pages/AboutUs";
+import TermsAndConditions from "./pages/paymentPages/terms-and-conditions";
+import PrivacyPolicy from "./pages/paymentPages/privacy-policy";
+import RefundPolicy from "./pages/paymentPages/refund-policy";
+import ShippingPolicy from "./pages/paymentPages/shipping-policy";
 import ContactUs from "./pages/ContactUs";
 import OurVideos from "./pages/OurVideos";
 import Shop from "./pages/shop";
@@ -135,6 +139,10 @@ function App() {
           <Route path="forgot-password" element={<ForgetPassword />} /> */}
 
             {/* General Pages */}
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/refund-policy" element={<RefundPolicy />} />
+            <Route path="/shipping-policy" element={<ShippingPolicy />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/shop" element={<Shop />} />
