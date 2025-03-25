@@ -12,7 +12,7 @@ const ShippingPolicy = () => {
     It's important to note that our order processing times are separate from the shipping times you see at checkout.
   </p>
   <p className="mb-2">
-    All orders are processed within <strong>X to X business days</strong> (excluding weekends and holidays) after receiving your order confirmation email. You will receive another notification once your order has shipped.
+    All orders are processed within <strong>3 to 5 business days</strong> (excluding weekends and holidays) after receiving your order confirmation email. You will receive another notification once your order has shipped.
   </p>
   <p className="mb-2">
     Please allow for potential delays during high order volumes or due to issues with postal services that are beyond our control.
@@ -26,7 +26,7 @@ const ShippingPolicy = () => {
     <strong>Calculated shipping rates:</strong> Shipping charges will be calculated and shown at checkout.
   </p>
   <p className="mb-2">
-    <strong>Flat rate shipping:</strong> We offer <strong>$X flat rate shipping</strong> to [list countries].
+    <strong>Flat rate shipping:</strong> We offer <strong>$0 flat rate shipping</strong> to [list countries].
   </p>
   <p className="mb-2">
     We offer <strong>free shipping</strong> for orders over $75.
@@ -67,10 +67,10 @@ const ShippingPolicy = () => {
 <section>
   <h3 className="text-xl font-semibold mb-2">Local Delivery</h3>
   <p className="mb-2">
-    Free local delivery is available for orders over <strong>X</strong> within [area of coverage]. Orders under <strong>X</strong> will be charged <strong>X</strong> for delivery.
+    Free local delivery is available for orders over <strong>0</strong> within 10km. Orders under <strong>0</strong> will be charged <strong>0</strong> for delivery.
   </p>
   <p className="mb-2">
-    Deliveries are made from [delivery hours] on [available days]. We will contact you via text using the phone number provided at checkout to notify you on the day of delivery.
+    Deliveries are made from 10hrs on 2 days . We will contact you via text using the phone number provided at checkout to notify you on the day of delivery.
   </p>
   <p className="mb-2">
     [Optional: List ZIP/postal codes or embed a delivery zone map here.]
@@ -81,7 +81,7 @@ const ShippingPolicy = () => {
 <section>
   <h3 className="text-xl font-semibold mb-2">In-Store Pickup</h3>
   <p className="mb-2">
-    You can skip shipping fees with free local pickup at [location(s)]. After placing your order and selecting local pickup at checkout, your order will be ready within <strong>X to X business days</strong>. We will email you when it’s ready.
+   After placing your order and selecting local pickup at checkout, your order will be ready within <strong>3 to 5 business days</strong>. We will email you when it’s ready.
   </p>
   <p className="mb-2">
     Pickup hours are [store hours] on [available days]. Please bring your order confirmation email when you arrive.
