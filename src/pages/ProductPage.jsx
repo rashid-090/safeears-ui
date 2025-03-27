@@ -148,7 +148,7 @@ function ProductPage() {
             >
               <MdOutlineKeyboardBackspace />
             </button>
-            <div className="overflow-hidden h-full w-full md:h-48 md:w-48 relative rounded-2xl">
+            <div className="overflow-hidden h-full w-full md:h-48 md:w-48 relative rounded-2xl mt-10 xl:mt-0">
 
               <CarouselProvider
                 naturalSlideWidth={100}
@@ -296,9 +296,9 @@ function ProductPage() {
               Continue Shopping
             </Link>
           </div>
-          <div className=" bg-white text-black w-full md:w-[50%] max-w-[500px] rounded-2xl">
+          <div className=" bg-white text-black w-full md:w-[50%] max-w-[500px] p-5 rounded-2xl">
 
-            {user ? <Rating hasRated={hasRated} setHasRated={setHasRated} productId={product._id} flag={flag} setFlag={setFlag} userId={user._id} /> : <p>Login to rate this product.</p>}
+            {user ? <Rating hasRated={hasRated} setHasRated={setHasRated} productId={product._id} flag={flag} setFlag={setFlag} userId={user._id} /> : <div className="w-fit mx-auto"><Link to={'/login'} className="bg-main text-black  text-sm capitalize hover:bg-yellow-600 duration-300 px-10 w-fit mx-auto py-2 rounded-2xl">Login to rate this product</Link></div>}
             {console.log(product)}
             {
               product?.ratings &&

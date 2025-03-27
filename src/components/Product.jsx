@@ -72,23 +72,25 @@ const Product = ({ item }) => {
   };
 
   return (
-    <div className="bg-white w-full h-full px-5 py-2 rounded-2xl flex justify-center items-center gap-10 md:gap-5 xl:gap-3">
+    <div className="bg-white w-full h-full px-5 xl:px-2 py-2 rounded-2xl flex justify-center items-center gap-10 md:gap-5 xl:gap-3">
       <div
         onClick={() => navigate(`/shop/${item._id}`)}
         className="cursor-pointer group overflow-hidden h-28 w-28 relative rounded-2xl"
       >
+      <div className="w-full h-full relative overflow-hidden">
         <img
-          className="w-full h-full object-cover rounded-2xl group-hover:opacity-50 duration-300"
-          src={`${cloudinary}/${item.imageURL}`}
-          alt={item.name}
-          loading="lazy"
-        />
-        <p className="hidden group-hover:block duration-500 absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-center text-black text-xl ">
-          <FaEye />
-        </p>
-        <span className="absolute text-[9px] w-full py-1 text-center capitalize font-semibold bottom-0 right-0 bg-main text-black">
+            className="aspect-square h-full w-full object-cover rounded-2xl group-hover:opacity-50 duration-300"
+            src={`${cloudinary}/${item.imageURL}`}
+            alt={item.name}
+            loading="lazy"
+          />
+          <p className="hidden group-hover:block duration-500 absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-center text-black text-xl ">
+            <FaEye />
+          </p>
+        <div className="absolute text-[7px] w-full py-1 text-center capitalize font-semibold bottom-0 right-0 bg-main text-black">
           keep your ears dry
-        </span>
+        </div>
+      </div>
       </div>
       <div className="flex flex-col gap-1">
         <p className="text-[9px] font-medium flex gap-1 capitalize items-center">
@@ -96,7 +98,7 @@ const Product = ({ item }) => {
           Be first to review
         </p>
         <h1
-          className="text-xs font-semibold capitalize cursor-pointer"
+          className="text-xs font-semibold text-center capitalize cursor-pointer"
           onClick={() => navigate(`/shop/${item?._id}`)}
         >
           {item?.name}

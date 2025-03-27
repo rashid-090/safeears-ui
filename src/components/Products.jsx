@@ -42,7 +42,7 @@ const Products = () => {
 
   // setCart(cart);
   return (
-    <div className="  grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 place-items-center gap-5 md:gap-10 xl:gap-5 text-black">
+    <div className="py-10  grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 place-items-center gap-5 md:gap-10 xl:gap-5 text-black">
       {allProducts ? (
         allProducts?.map((dt, i) => <Product key={i} item={dt} />)
       ) : (

@@ -383,6 +383,7 @@ const Header = () => {
           />
         </div>
       </div>
+      {user && user.role === "user" && (
       <div className=" fixed bottom-24 right-7 bg-main p-2 hover:bg-main-hover rounded-full shadow-xl">
 
         <div className="  hover:cursor-pointer  ">
@@ -394,6 +395,7 @@ const Header = () => {
           <BsCart4 onClick={changeCartState} className="text-3xl" />
         </div>
       </div>
+        ) }
       {/* Cart Modal */}
       <CartModal />
     </nav>
