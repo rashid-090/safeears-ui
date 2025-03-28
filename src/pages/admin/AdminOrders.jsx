@@ -241,7 +241,7 @@ const AdminOrders = () => {
                               )}
                             </TableCell>
                             <TableCell align="right">
-                              {item.user.firstName} {item.user.lastName}
+                              {item.user?.firstName} {item.user?.lastName}
                             </TableCell>
                             <TableCell align="right">
                               {item.totalPrice}₹

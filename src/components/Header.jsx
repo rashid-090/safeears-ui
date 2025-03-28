@@ -233,7 +233,7 @@ const Header = () => {
                     }
                     alt=""
                   />
-                  <span>{user.firstName}</span>
+                  <span>{user?.firstName}</span>
 
                   {/* Desktop Profile Dropdown */}
                   {isProfileDropdownOpen && (
@@ -321,7 +321,7 @@ const Header = () => {
                           className="flex items-center gap-3 cursor-pointer"
                           onClick={toggleProfileDropdown}
                         >
-                          <span className="text-base">{user.firstName}</span>
+                          <span className="text-base">{user?.firstName}</span>
                           <img
                             className="h-12 w-12 rounded-full object-cover border-2"
                             src={
