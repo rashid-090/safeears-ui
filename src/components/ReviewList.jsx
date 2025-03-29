@@ -28,7 +28,7 @@ const ReviewsList = ({ productId, currentUserId ,flag, setHasRated }) => {
         try {
             const { data } = await axios.get(`${URL}/user/product/${productId}`, config);
 
-            console.log(data)
+            // console.log(data)
             if (data) {
                 setReviews(data.product.ratings);
             }
@@ -37,7 +37,7 @@ const ReviewsList = ({ productId, currentUserId ,flag, setHasRated }) => {
         }
     }
     const handleDeleteReview = async (reviewId) => {
-        console.log(reviewId);
+        // console.log(reviewId);
         // return console.log(productId);
 
         try {

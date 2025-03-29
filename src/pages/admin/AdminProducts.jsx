@@ -113,7 +113,7 @@ const AdminProducts = () => {
 
   const handleView = (id) => {
     const product = products.find((prod) => prod._id === id);
-    console.log(id);
+    // console.log(id);
 
     setSelectedProduct(product);
   };
@@ -121,7 +121,7 @@ const AdminProducts = () => {
   const handleEdit = async (id) => {
     const product = products.find((prod) => prod._id === id);
     setEditProduct(product);
-    console.log(product)
+    // console.log(product)
 
 
   };
@@ -140,7 +140,7 @@ const AdminProducts = () => {
         `${URL}/admin/product/${deleteProduct._id}`,
         { withCredentials: true }
       );
-      console.log(res);
+      // console.log(res);
       if (res.status) {
         toast.success("Product deleted successfully.");
         setFlag((prev) => !prev);
@@ -155,7 +155,7 @@ const AdminProducts = () => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    console.log(editProduct);
+    // console.log(editProduct);
 
     try {
       // const res = await axios.patch(
@@ -164,7 +164,7 @@ const AdminProducts = () => {
       // );
 
       const res = await dispatch(updateProduct({ id: editProduct._id, formData: editProduct }));
-      console.log(res);
+      // console.log(res);
       setNewImagePreviews([])
       toast.success(`${editProduct.name} Product updated success`);
       setFlag((prev) => !prev);

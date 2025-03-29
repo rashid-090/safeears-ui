@@ -23,8 +23,8 @@ const Rating = ({ productId, userId, setFlag, hasRated, setHasRated }) => {
       axios.get(`${URL}/user/product/${productId}`)
         .then(res => {
           const product = res.data;
-          console.log(res)
-          console.log("User id ", userId)
+          // console.log(res)
+          // console.log("User id ", userId)
 
           // Ensure product and ratings exist
           // Filter ratings to get the one that belongs to the logged-in user

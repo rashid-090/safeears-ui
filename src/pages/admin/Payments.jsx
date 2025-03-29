@@ -124,7 +124,7 @@ const Payments = () => {
                 </tr>
               </thead>
               <tbody>
-                {console.log(payments)}
+                {/* {console.log(payments)} */}
                 {payments.map((item, index) => {
                   const isLast = index === payments.length - 1;
                   const classes = isLast
@@ -147,7 +147,7 @@ const Payments = () => {
                           {item.user?.firstName} {item.user?.lastName}
                         </p>
                       </td>
-                      <td className="admin-table-row">
+                      <td className="admin-table-row font-sans">
                         {item.order?.totalPrice}₹
                       </td>
                       <td className="admin-table-row">

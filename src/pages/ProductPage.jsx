@@ -44,7 +44,7 @@ function ProductPage() {
           withCredentials: true,
         });
 
-        console.log(data)
+        // console.log(data)
         if (data) {
           setProduct(data.product);
           setLoading(false);
@@ -89,7 +89,7 @@ function ProductPage() {
         { ...config, withCredentials: true }
       )
       .then((data) => {
-        console.log(data);
+        // console.log(data);
 
         toast.success("Added to cart");
         setCartLoading(false);

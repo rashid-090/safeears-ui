@@ -86,7 +86,7 @@ const Orders = () => {
     resolver: yupResolver(schema),
   });
 
-  const { addresses, loading } = useSelector((state) => state.address);
+  const { user, addresses, loading } = useSelector((state) => state.address);
   const { cart, cartId, totalPrice, totalMrpPrice } = useSelector(
     (state) => state.cart
   );
@@ -117,7 +117,6 @@ const Orders = () => {
       dispatch(createAddress(data));
       dispatch(getCart());
 
-      console.log(data);
     } catch (err) {
       console.log(err);
     }
@@ -200,6 +199,8 @@ const Orders = () => {
       { amount: amountInPaisa }, // Send amount in paisa
       config
     );
+    const selected = addresses.find(address => address._id === selectedAddress);
+
 
     // setting razor pay configurations
     let options = {
@@ -207,24 +208,25 @@ const Orders = () => {
       amount: amountInPaisa, // Use the same amount in paisa
       currency: "INR",
       name: "SafeEars",
-      description: "Test Transaction",
+      description: "SafeEars Website",
       image: { logo },
       order_id: order.id,
       handler: function (response) {
         saveOrder(response);
       },
       prefill: {
-        name: "Gaurav Kumar",
-        email: "gaurav.kumar@example.com",
-        contact: "9000090000",
+        name: user?.firstName + ' ' + user?.lastName,
+        email: user?.email,
+        contact: user?.phoneNumber,
       },
       notes: {
-        address: "Razor pay Corporate Office",
+        address: selected?.address + ", " + selected?.locality + ", " + selected?.city + ", " + selected?.state,
       },
       theme: {
         color: "#2b2b30",
       },
     };
+
 
     // enabling razor-pay payment screen
     const razor = new window.Razorpay(options);
@@ -259,9 +261,7 @@ const Orders = () => {
       return;
     }
 
-    console.log("cart", cart);
-    console.log("Address", selectedAddress);
-    console.log("Payment", selectedPayment);
+
 
     if (selectedPayment === "razorPay") {
       initiateRazorPayPayment();
@@ -488,7 +488,7 @@ const Orders = () => {
                       <button
                         type="submit"
                         className="w-fit px-5 bg-main text-black font-semibold py-2 rounded-md"
-                        // onClick={goToNextStep}
+                      // onClick={goToNextStep}
                       >
                         Save
                       </button>

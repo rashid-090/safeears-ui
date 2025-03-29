@@ -26,7 +26,7 @@ const StatusHistoryLoadingBar = ({ statusHistory }) => {
     { name: "Shipped", icon: <FaShippingFast />, status: "shipped" },
     { name: "Delivered", icon: <FaRegHandshake />, status: "delivered" },
   ];
-  console.log(statusHistory.slice(-1)[0].status);
+  // console.log(statusHistory.slice(-1)[0].status);
   const lastStatus = statusHistory.slice(-1)[0].status;
 
   return (
@@ -42,7 +42,7 @@ const StatusHistoryLoadingBar = ({ statusHistory }) => {
                   : "border-4 border-main bg-white"
               }`}
             >
-              {console.log(count,index)}
+              {/* {console.log(count,index)} */}
               {count >= index && <TiTick />}
             </div>
             <span className="text-2xl text-secondary mt-3">{status.icon}</span>

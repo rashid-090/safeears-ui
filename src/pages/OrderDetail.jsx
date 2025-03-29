@@ -96,9 +96,9 @@ const OrderDetail = () => {
                     )}
                   </p>
                 </div>
-                <h1 className="text-3xl font-bold">{orderData.totalPrice}₹</h1>
+                <h1 className="text-3xl font-bold font-sans">{orderData.totalPrice}₹</h1>
               </div>
-              {console.log(orderData)}
+              {/* {console.log(orderData)} */}
               {/* Expected Date and status component */}
               <div className="px-5 pb-5 border-b flex flex-col gap-2 sm:flex-row sm:gap-0 items-center justify-between">
                 <div>
@@ -204,7 +204,7 @@ const OrderDetail = () => {
                   </table>
                 </div>
                 {/* Order Total and charges */}
-                <div className="lg:flex w-full lg:flex-row-reverse">
+                <div className="lg:flex w-full lg:flex-row-reverse font-sans">
                   <div className="sm:w-1/4 bg-gray-100  p-5">
                     <div className="border-b border-gray-200 pb-2 mb-2">
                       <div className="cart-total-li">
@@ -234,7 +234,7 @@ const OrderDetail = () => {
                     </div>
                     <div className="cart-total-li">
                       <p className="font-semibold text-gray-500">Total</p>
-                      <p className="font-semibold">{orderData.totalPrice}₹</p>
+                      <p className="font-semibold font-sans">{orderData.totalPrice}₹</p>
                     </div>
                   </div>
                 </div>

@@ -15,7 +15,7 @@ const Dashboard = () => {
     (state) => state.products
   );
 
-  console.log(totalAvailableProducts);
+  // console.log(totalAvailableProducts);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

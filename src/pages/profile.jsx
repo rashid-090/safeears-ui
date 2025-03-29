@@ -66,7 +66,7 @@ const Profile = () => {
       formData.append("profileImgURL", imageFile);
     }
 
-    console.log([...formData.entries()]); // For debugging: View FormData content
+    // console.log([...formData.entries()]); // For debugging: View FormData content
 
     // Dispatch the action
     dispatch(editUserProfile(formData));

@@ -26,7 +26,7 @@ const LoginWithPhone = () => {
     const navigate = useNavigate()
     // Send OTP to the provided phone number
     const sendOtp = async () => {
-        console.log("Phone number", phoneNumber);
+        // console.log("Phone number", phoneNumber);
 
         try {
             setIsLoading(true); // Set loading state to true when the OTP is being sent
@@ -59,7 +59,7 @@ const LoginWithPhone = () => {
             if (res.status) {
                 axios.post(`${URL}/auth/validate-phone`, { phoneNumber })
                     .then((res) => {
-                        console.log(res.data.status);
+                        // console.log(res.data.status);
 
                         if (res.data.status === "exists") {
                             // If user exists, log them in

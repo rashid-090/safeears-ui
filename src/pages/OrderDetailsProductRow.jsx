@@ -14,10 +14,10 @@ const OrderDetailsProductRow = ({ length, index, item }) => {
       <td className="admin-table-row">
         <div className="flex items-center gap-5">
           <div className="w-14 h-14 overflow-clip flex justify-center items-center shrink-0">
-            {item.productId.imageURL ? (
+            {item?.productId?.imageURL ? (
               <img
                 src={`${cloudinary}/${item.productId.imageURL}`}
-                alt={`${item.productId.imageURL}`}
+                alt={`${item?.productId?.imageURL}`}
                 className="object-contain w-full h-full"
               />
             ) : (
@@ -25,12 +25,12 @@ const OrderDetailsProductRow = ({ length, index, item }) => {
             )}
           </div>
           <div>
-            <Link to={`/shop/${item.productId._id}`}>
+            <Link to={`/shop/${item.productId?._id}`}>
               <p className="lg:text-lg font-semibold text-blue-600 line-clamp-1 hover:underline cursor-pointer">
-                {item.productId.name}
+                {item.productId?.name}
               </p>
             </Link>
-            <p className="line-clamp-2">{item.productId.description}</p>
+            <p className="line-clamp-2">{item.productId?.description}</p>
           </div>
         </div>
       </td>

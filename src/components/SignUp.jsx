@@ -54,11 +54,11 @@ const SignUp = ({
     }
 
     const res = await dispatch(signUpUser(data));
-    console.log(res);
+    // console.log(res);
   };
 
   const onSubmit = (value) => {
-    console.log(value);
+    // console.log(value);
     dispatchSignUp(value);
   };
 

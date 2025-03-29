@@ -65,7 +65,7 @@ const CartModal = () => {
 
   const onClose = () => {
     dispatch(toggleCart());
-    console.log(cartOpen);
+    // console.log(cartOpen);
   };
 
 
@@ -75,7 +75,7 @@ const CartModal = () => {
   const [productId, setProductId] = useState("");
 
   const dispatchDeleteProduct = () => {
-    console.log(cartId, productId);
+    // console.log(cartId, productId);
 
     dispatch(deleteOneProduct({ cartId, productId }));
     dispatch(getCart());

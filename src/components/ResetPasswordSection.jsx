@@ -42,7 +42,7 @@ const ResetPasswordSection = ({ phone, email, setPasswordSec, setFinalMessage })
 
     try {
       const { data } = await axios.post(`${URL}/auth/set-new-password`, requestData, config);
-      console.log(data)
+      // console.log(data)
 
       if (data.success) {
         setPasswordSec(false);

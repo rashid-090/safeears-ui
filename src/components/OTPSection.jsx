@@ -69,7 +69,7 @@ const OTPSection = ({ email, setPasswordSec, setOTPSec, setOTPExpired }) => {
     e.preventDefault();
 
     let otpNumber = parseInt(otp.join(""));
-    console.log(email);
+    // console.log(email);
 
     if (otpNumber.toString().split("").length < 6) {
       setError("OTP is not valid");
@@ -90,7 +90,7 @@ const OTPSection = ({ email, setPasswordSec, setOTPSec, setOTPExpired }) => {
         config
       );
       if (response.status) {
-        console.log(response);
+        // console.log(response);
 
         setOTPSec(false);
         setLoading(false);
@@ -141,7 +141,7 @@ const OTPSection = ({ email, setPasswordSec, setOTPSec, setOTPExpired }) => {
   }, [resendSeconds]);
 
   const handleResending = async () => {
-    console.log("Email:", email)
+    // console.log("Email:", email)
     if (resendSeconds === 0) {
       setResendLoading(true);
 

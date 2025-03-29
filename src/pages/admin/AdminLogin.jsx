@@ -57,7 +57,7 @@ const AdminLogin = () => {
   const onSubmit = async (data) => {
     dispatch(loginUser(data));
 
-    console.log(data);
+    // console.log(data);
   };
 
   return (

@@ -90,7 +90,7 @@ const OTPEnterSection = ({
         config
       )
       .then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (data.success) {
           setPasswordSec(true);
           setOTPSec(false);
@@ -98,7 +98,7 @@ const OTPEnterSection = ({
         }
       })
       .catch(({ response }) => {
-        console.log(response);
+        // console.log(response);
         setError(response.data.error);
         setLoading(false);
       });

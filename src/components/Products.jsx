@@ -27,7 +27,7 @@ const Products = () => {
     const loadData = async () => {
       const res = await commonRequest("GET", "/user/products", null, appJson);
       if (res?.products) {
-        console.log(res?.products);
+        // console.log(res?.products);
         setAllProducts(res?.products);
       }
     };

@@ -114,7 +114,7 @@ const AdminOrders = () => {
     navigate(`/admin/order/${id}`); // Navigate to the single order page
   };
 
-  console.log(orders);
+  // console.log(orders);
 
   return (
     <section className="">
@@ -191,7 +191,7 @@ const AdminOrders = () => {
                           ? "p-4"
                           : "p-4 border-b border-gray-200 ";
                         const adjustedIndex = (page - 1) * 10 + index + 1;
-                        console.log(item);
+                        // console.log(item);
 
                         return (
                           <TableRow
