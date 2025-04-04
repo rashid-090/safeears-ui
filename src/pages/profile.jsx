@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import UserAvatar from "../assets/images/user.png";
-
+import "react-phone-number-input/style.css"; // Import the required CSS for the phone input
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import PhoneInput from "react-phone-number-input";
 import { useDispatch, useSelector } from "react-redux";
 import { getPassedDateOnwardDateForInput } from "../Common/functions";
 import { editUserProfile } from "../redux/actions/userActions";
@@ -21,7 +21,7 @@ const Profile = () => {
     firstName: user.firstName || "",
     lastName: user.lastName || "",
     email: user.email || "",
-    phoneNumber: user.phoneNumber || "",
+    phoneNumber: `+${user.phoneNumber}` || "",
     dateOfBirth: getPassedDateOnwardDateForInput(user.dateOfBirth) || "",
   };
 
@@ -29,14 +29,9 @@ const Profile = () => {
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    phoneNumber: Yup.string() // Use string first
-      .transform((value) => (value.trim() === "" ? null : value)) // Transform empty strings to null
-      .nullable() // Allow null values
-      .matches(/^\d+$/, "Phone number should be digits") // Ensure it's only digits
-      .min(10, "Phone number should be at least 10 digits") // Validate length
-      .max(15, "Phone number should be at most 15 digits") // Optional: Maximum length
-      .notRequired(), // Allow empty values if desired
-
+    phoneNumber: Yup.string()
+      .required("Phone number is required")
+      .matches(/^\+[1-9]\d{1,14}$/, "Enter a valid phone number"),
     dateOfBirth: Yup.date()
       .nullable()
       .typeError("Invalid date format. Please select a valid date."),
@@ -45,34 +40,31 @@ const Profile = () => {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: initialValues,
   });
 
-  // Handle form submission
+  const phoneNumber = watch("phoneNumber"); // Watch phoneNumber value
+
   const onSubmit = (data) => {
     const formData = new FormData();
-
-    // Append the form fields
     formData.append("firstName", data.firstName);
     formData.append("lastName", data.lastName);
     formData.append("email", data.email);
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("dateOfBirth", data.dateOfBirth);
 
-    // Append the image file if it exists
     if (imageFile) {
       formData.append("profileImgURL", imageFile);
     }
 
-    // console.log([...formData.entries()]); // For debugging: View FormData content
-
-    // Dispatch the action
     dispatch(editUserProfile(formData));
   };
 
-  // Handle file change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -89,10 +81,7 @@ const Profile = () => {
     <section className="w-11/12 xl:w-10/12 mx-auto h-full overflow-hidden py-10 text-white">
       <div className="p-4">
         <h2 className="text-2xl font-bold mb-4">Your Profile</h2>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 text-white"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-white">
           <div className="flex flex-col md:flex-row md:items-center gap-5">
             <img
               className="h-40 w-40 rounded-md border-2 object-cover"
@@ -121,7 +110,6 @@ const Profile = () => {
             </label>
           </div>
 
-          {/* Profile fields */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="firstName" className="block font-semibold mb-1">
@@ -130,7 +118,6 @@ const Profile = () => {
               <input
                 type="text"
                 id="firstName"
-                defaultValue={initialValues.firstName}
                 className="w-full p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-main"
                 {...register("firstName")}
               />
@@ -143,7 +130,6 @@ const Profile = () => {
               <input
                 type="text"
                 id="lastName"
-                defaultValue={initialValues.lastName}
                 className="w-full p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-main"
                 {...register("lastName")}
               />
@@ -158,7 +144,6 @@ const Profile = () => {
             <input
               type="email"
               id="email"
-              defaultValue={initialValues.email}
               className="w-full p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-main"
               {...register("email")}
             />
@@ -167,36 +152,30 @@ const Profile = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label for="phoneNumber" className="block font-semibold mb-1">
-                Phone number
+              <label htmlFor="phoneNumber" className="block font-semibold mb-1">
+                Phone Number
               </label>
-              <input
-                type="number"
+              <PhoneInput
                 id="phoneNumber"
                 name="phoneNumber"
-                defaultValue={initialValues.phoneNumber}
-                className="w-full p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-main [&::-webkit-inner-spin-button]:appearance-none"
-                {...register("phoneNumber")}
+                defaultCountry="IN"
+                className="w-full p-3 border-2 border-gray-300 text-black rounded-md focus:ring-0"
+                value={phoneNumber}
+                onChange={(value) => setValue("phoneNumber", value)}
               />
-              <p className="w-full h-5 text-nowrap text-red-600 pt-1">
-                {errors.phoneNumber?.message}
-              </p>
+              <p className="text-red-600 pt-1">{errors.phoneNumber?.message}</p>
             </div>
             <div>
-              <label for="dateOfBirth" className="block font-semibold mb-1">
+              <label htmlFor="dateOfBirth" className="block font-semibold mb-1">
                 Date of Birth
               </label>
               <input
                 type="date"
                 id="dateOfBirth"
-                name="dateOfBirth"
-                defaultValue={initialValues.dateOfBirth||""}
                 className="w-full p-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-main"
                 {...register("dateOfBirth")}
               />
-              <p className="w-full h-5 text-nowrap text-red-600 pt-1">
-                {errors.dateOfBirth?.message}
-              </p>
+              <p className="text-red-600 pt-1">{errors.dateOfBirth?.message}</p>
             </div>
           </div>
 
