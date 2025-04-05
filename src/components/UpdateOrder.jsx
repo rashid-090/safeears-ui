@@ -44,7 +44,7 @@ const UpdateOrder = ({ toggleModal, data }) => {
   };
 
   return (
-    <div className="w-2/6 bg-white p-5 rounded-lg">
+    <div className="w-8/12 md:w-6/12 xl:w-5/12 2xl:w-4/12 mx-auto bg-white p-5 rounded-lg">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

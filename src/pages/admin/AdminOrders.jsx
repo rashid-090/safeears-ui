@@ -119,7 +119,7 @@ const AdminOrders = () => {
   return (
     <section className="">
       {updateModal && (
-        <div className=" h-screen bg-slate-600 fixed top-0 left-0 z-[9999] bg-opacity-40 flex items-center justify-center">
+        <div className="w-full h-screen bg-slate-600 fixed top-0 left-0 z-[9999] bg-opacity-40 flex items-center justify-center">
           <UpdateOrder
             toggleModal={toggleUpdateModal}
             data={selectedOrderToUpdate}
