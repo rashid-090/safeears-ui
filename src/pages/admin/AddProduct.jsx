@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useDropzone } from "react-dropzone"; // Importing react-dropzone
-import { IoMdCloseCircle } from "react-icons/io"; // Close button
+import { useDropzone } from "react-dropzone";
+import { IoMdCloseCircle } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { createProduct } from "../../redux/actions/admin/productActions";
 
 const AddProduct = () => {
@@ -16,21 +16,26 @@ const AddProduct = () => {
     status: "",
   });
 
-  const [imageURL, setImageURL] = useState(null); // For single image
-  const [moreImageURLs, setMoreImageURLs] = useState([]); // For multiple images
+  const [sizes, setSizes] = useState([]); // To store selected sizes
+  const [currentSize, setCurrentSize] = useState(""); // For adding new sizes
+  const [imageURL, setImageURL] = useState(null);
+  const [moreImageURLs, setMoreImageURLs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Size options - you can customize these
+  const sizeOptions = ["S", "M", "L", "XL", "XXL", "XXXL"];
 
   // Single Image Upload (Primary Image)
   const singleImageDropzone = useDropzone({
     accept: "image/*",
-    maxFiles: 1, // Limit to 1 file
+    maxFiles: 1,
     onDrop: (acceptedFiles) => {
-      setImageURL(acceptedFiles[0]); // Store the selected image file
+      setImageURL(acceptedFiles[0]);
     },
   });
 
   const removeSingleImage = () => {
-    setImageURL(null); // Clear the single image
+    setImageURL(null);
   };
 
   const removeMultipleImage = (index) => {
@@ -46,8 +51,6 @@ const AddProduct = () => {
     },
   });
 
-
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -56,11 +59,35 @@ const AddProduct = () => {
     }));
   };
 
+  const handleSizeAdd = () => {
+    if (currentSize && !sizes.includes(currentSize)) {
+      setSizes([...sizes, currentSize]);
+      setCurrentSize("");
+    }
+  };
+
+  const handleSizeRemove = (sizeToRemove) => {
+    setSizes(sizes.filter(size => size !== sizeToRemove));
+  };
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate that at least one size is selected
+    if (sizes.length === 0) {
+      toast.error("Please select at least one size");
+      return;
+    }
+
+    // Validate that at least one image is uploaded
+    if (!imageURL && moreImageURLs.length === 0) {
+      toast.error("Please upload at least one image");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -72,6 +99,15 @@ const AddProduct = () => {
       data.append("offer", formData.offer);
       data.append("status", formData.status);
 
+      // Append sizes as attributes
+      sizes.forEach(size => {
+        data.append("attributes[]", JSON.stringify({
+          name: "size",
+          value: size,
+          isHighlight: false
+        }));
+      });
+
       // Append single image
       if (imageURL) {
         data.append("imageURL", imageURL);
@@ -79,10 +115,11 @@ const AddProduct = () => {
 
       // Append multiple images
       moreImageURLs.forEach((file, index) => {
-        data.append(`moreImageURL[${index}]`, file); // Add each file with an array-like key
+        data.append(`moreImageURL[${index}]`, file);
       });
 
       await dispatch(createProduct(data));
+      toast.success("Product added successfully!");
       navigate('/admin/products');
     } catch (err) {
       console.error(err);
@@ -172,7 +209,57 @@ const AddProduct = () => {
           </select>
         </div>
 
-        <div></div>
+        {/* Size Selection */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Available Sizes
+          </label>
+          <div className="flex items-center mt-1">
+            <select
+              value={currentSize}
+              onChange={(e) => setCurrentSize(e.target.value)}
+              className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main"
+            >
+              <option value="">Select a size</option>
+              {sizeOptions.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              onClick={handleSizeAdd}
+              className="ml-2 px-3 py-2 bg-main text-white rounded-md hover:bg-green-600"
+            >
+              Add
+            </button>
+          </div>
+
+          {/* Display selected sizes */}
+          {sizes.length > 0 && (
+            <div className="mt-2">
+              <p className="text-sm text-gray-500">Selected Sizes:</p>
+              <div className="flex flex-wrap gap-2 mt-1">
+                {sizes.map((size) => (
+                  <div
+                    key={size}
+                    className="flex items-center bg-gray-100 px-2 py-1 rounded"
+                  >
+                    <span>{size}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleSizeRemove(size)}
+                      className="ml-1 text-red-500"
+                    >
+                      <IoMdCloseCircle />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Single Image Upload */}
         <div>
@@ -198,10 +285,8 @@ const AddProduct = () => {
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-
-                    removeSingleImage
-                  }
-                  }
+                    removeSingleImage();
+                  }}
                   className="absolute text-xl -top-2 -right-2 text-red-500 bg-white rounded-full"
                 >
                   <IoMdCloseCircle />
@@ -223,12 +308,14 @@ const AddProduct = () => {
                 {moreImageURLs.map((file, index) => (
                   <div key={index} className="relative">
                     <img src={URL.createObjectURL(file)} alt={`Uploaded ${index + 1}`} className="h-20 object-contain rounded-md" />
-                    <button type="button" onClick={(e) => {
-                      e.stopPropagation();
-                      removeMultipleImage(index)
-                    }
-                    }
-                      className="absolute text-xl text-red-500 bg-white rounded-full -top-2 -right-2">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeMultipleImage(index);
+                      }}
+                      className="absolute text-xl text-red-500 bg-white rounded-full -top-2 -right-2"
+                    >
                       <IoMdCloseCircle />
                     </button>
                   </div>
@@ -241,10 +328,10 @@ const AddProduct = () => {
         <button
           type="submit"
           className="p-2 px-5 font-medium bg-main text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-main"
+          disabled={isLoading}
         >
-          {isLoading ? "Adding Product" : "Add Product"}
+          {isLoading ? "Adding Product..." : "Add Product"}
         </button>
-        <div className="flex justify-start"></div>
       </form>
     </div>
   );

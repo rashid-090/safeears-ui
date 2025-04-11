@@ -30,7 +30,7 @@ const OrderDetailsProductRow = ({ length, index, item }) => {
                 {item.productId?.name}
               </p>
             </Link>
-            <p className="line-clamp-2">{item.productId?.description}</p>
+            <p className="line-clamp-2">Size : {item.size ?? 'Regular'}</p>
           </div>
         </div>
       </td>

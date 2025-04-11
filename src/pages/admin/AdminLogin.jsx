@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/actions/userActions";
 import { updateError } from "../../redux/reducers/userSlice";

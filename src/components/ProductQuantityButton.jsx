@@ -21,7 +21,7 @@ const ProductQuantityButton = ({ item, toggleProductConfirm }) => {
     setButtonLoading(true);
 
     const res = await dispatch(
-      decrementCount({ cartId, productId: item.product._id })
+      decrementCount({ cartId, productId: item.product._id, size: item.size })
     );
     setButtonLoading(false);
   };
@@ -29,7 +29,7 @@ const ProductQuantityButton = ({ item, toggleProductConfirm }) => {
   const dispatchIncrement = async (item) => {
     setButtonLoading(true);
     const res = await dispatch(
-      incrementCount({ cartId, productId: item.product._id })
+      incrementCount({ cartId, productId: item.product._id, size: item.size })
     );
     setButtonLoading(false);
   };
@@ -37,20 +37,18 @@ const ProductQuantityButton = ({ item, toggleProductConfirm }) => {
   return (
     <div className="flex  items-center gap-5">
       <div
-        className={`flex border border-black rounded-lg overflow-hidden text-sm ${
-          buttonLoading && "!border-0"
-        } `}
+        className={`flex border border-black rounded-lg overflow-hidden text-sm ${buttonLoading && "!border-0"
+          } `}
       >
         {buttonLoading ? (
           <BarLoader color="#00756b" width={"72px"} height={"24px"} />
         ) : (
           <>
             <button
-              className={`w-6 grid place-items-center h-6 ${
-                item.quantity === 1
+              className={`w-6 grid place-items-center h-6 ${item.quantity === 1
                   ? "bg-black text-white cursor-not-allowed"
                   : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
-              } duration-200`}
+                } duration-200`}
               disabled={item.quantity === 1 || buttonLoading}
               onClick={() => dispatchDecrement(item)}
             >
@@ -60,11 +58,10 @@ const ProductQuantityButton = ({ item, toggleProductConfirm }) => {
               {item.quantity}
             </span>
             <button
-              className={`w-6 grid place-items-center h-6 ${
-                item.quantity === 6
+              className={`w-6 grid place-items-center h-6 ${item.quantity === 6
                   ? "bg-black text-white cursor-not-allowed"
                   : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
-              } duration-200`}
+                } duration-200`}
               onClick={() => dispatchIncrement(item)}
               disabled={item.quantity === 6 || buttonLoading}
             >
