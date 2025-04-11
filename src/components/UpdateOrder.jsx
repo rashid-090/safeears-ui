@@ -26,7 +26,7 @@ const UpdateOrder = ({ toggleModal, data }) => {
   const validationSchema = Yup.object().shape({
     status: Yup.string().required("Status is required"),
     trackingId: Yup.string().nullable(),
-    date: Yup.date().nullable().required("Date is required"),
+    date: Yup.date().nullable().default(new Date(todayDate)).required("Date is required"),
     description: Yup.string(),
     paymentStatus: Yup.string().nullable(),
   });
@@ -124,7 +124,9 @@ const UpdateOrder = ({ toggleModal, data }) => {
               <Field
                 type="date"
                 name="date"
+
                 min={orderDate}
+                value={todayDate}
                 max={todayDate}
                 className="px-5 py-2 w-full bg-gray-300 rounded-lg"
               />

@@ -6,7 +6,7 @@ import {
   configMultiPart,
 } from "../../Common/configurations";
 import { URL } from "../../Common/api";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 export const logout = createAsyncThunk(
   "user/logout",

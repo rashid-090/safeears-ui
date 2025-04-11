@@ -32,7 +32,7 @@ const SingleProductOnCheckOut = ({ item, cartId }) => {
   const dispatchIncrement = async (item) => {
     setButtonLoading(true);
     const res = await dispatch(
-      incrementCount({ cartId, productId: item.product._id })
+      incrementCount({ cartId, productId: item.product._id, size: item.size })
     );
     setButtonLoading(false);
   };
@@ -40,7 +40,7 @@ const SingleProductOnCheckOut = ({ item, cartId }) => {
   const dispatchDecrement = async (item) => {
     setButtonLoading(true);
     const res = await dispatch(
-      decrementCount({ cartId, productId: item.product._id })
+      decrementCount({ cartId, productId: item.product._id, size: item.size })
     );
     setButtonLoading(false);
   };
@@ -66,7 +66,7 @@ const SingleProductOnCheckOut = ({ item, cartId }) => {
         <div className="divide-y-2 space-y-10">
           <div className="flex flex-col md:flex-row gap-5 items-center">
             <div className="overflow-hidden h-full w-full md:h-48 md:w-48 relative rounded-2xl">
-           
+
               <img
                 className="w-full h-full object-cover rounded-2xl hover:opacity-90 duration-300"
                 src={`${cloudinary}/${item.product.imageURL}`}
@@ -85,6 +85,12 @@ const SingleProductOnCheckOut = ({ item, cartId }) => {
               <h1 className="text-lg font-semibold capitalize cursor-pointer">
                 {item.product.name}
               </h1>
+              {/* Display selected size if it exists */}
+              {item?.size && (
+                <div className="text-sm font-medium">
+                  Size: <span className="font-bold">{item.size}</span>
+                </div>
+              )}
               <div className="flex font-bold gap-2 text-base">
                 <p className="flex">
                   <FaRupeeSign /> {item.product.salePrice}
@@ -97,7 +103,7 @@ const SingleProductOnCheckOut = ({ item, cartId }) => {
                   {Math.round(
                     ((item.product.mrpPrice - item.product.salePrice) /
                       item.product.mrpPrice) *
-                      100
+                    100
                   )}{" "}
                   % off
                 </p>
@@ -119,11 +125,10 @@ const SingleProductOnCheckOut = ({ item, cartId }) => {
                 ) : (
                   <>
                     <button
-                      className={`w-6 grid place-items-center  ${
-                        item.quantity === 1
+                      className={`w-6 grid place-items-center  ${item.quantity === 1
                           ? "bg-black text-white cursor-not-allowed"
                           : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
-                      } duration-200`}
+                        } duration-200`}
                       disabled={item.quantity === 1}
                       onClick={() => dispatchDecrement(item)}
                     >
@@ -133,11 +138,10 @@ const SingleProductOnCheckOut = ({ item, cartId }) => {
                       {item.quantity}
                     </span>
                     <button
-                      className={`w-6 grid place-items-center ${
-                        item.quantity === 6
+                      className={`w-6 grid place-items-center ${item.quantity === 6
                           ? "bg-black text-white cursor-not-allowed"
                           : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
-                      } duration-200`}
+                        } duration-200`}
                       onClick={() => dispatchIncrement(item)}
                       disabled={item.quantity === 6}
                     >
