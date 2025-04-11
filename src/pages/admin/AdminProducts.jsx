@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { Link, useSearchParams } from "react-router-dom";
 import { cloudinary } from "../../utils/cloudinaryBaseUrl";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { IoMdCloseCircle } from "react-icons/io";
 import {
   getProducts,
@@ -40,6 +40,9 @@ const AdminProducts = () => {
   const [flag, setFlag] = useState(false);
   const [newImagePreviews, setNewImagePreviews] = useState([]);
   const dispatch = useDispatch();
+  const [newSize, setNewSize] = useState('');
+  const [sizes, setSizes] = useState([]);
+
 
   const { products, loading, error, totalAvailableProducts } = useSelector(
     (state) => state.products
@@ -153,28 +156,72 @@ const AdminProducts = () => {
     }
   };
 
+  // Handler for adding a size
+  // Handler for adding a size
+  const handleAddSize = () => {
+    if (newSize && !editProduct.attributes?.some(attr =>
+      attr.name === "size" && attr.value === newSize
+    )) {
+      const newSizeAttr = {
+        name: "size",
+        value: newSize,
+        isHighlight: false,
+        _id: `temp-${Date.now()}` // Temporary ID for new sizes
+      };
+
+      setEditProduct({
+        ...editProduct,
+        attributes: [
+          ...(editProduct.attributes || []),
+          newSizeAttr
+        ]
+      });
+      setNewSize('');
+    }
+  };
+
+  // Handler for removing a size
+  const handleRemoveSize = (sizeId) => {
+    if (editProduct.attributes) {
+      const updatedAttributes = editProduct.attributes.filter(
+        attr => !(attr._id === sizeId && attr.name === "size")
+      );
+      setEditProduct({
+        ...editProduct,
+        attributes: updatedAttributes
+      });
+    }
+  };
+
+
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    // console.log(editProduct);
-
+  
     try {
-      // const res = await axios.patch(
-      //   `${URL}/admin/product/${editProduct._id}`,
-      //   editProduct
-      // );
-
-      const res = await dispatch(updateProduct({ id: editProduct._id, formData: editProduct }));
-      // console.log(res);
-      setNewImagePreviews([])
-      toast.success(`${editProduct.name} Product updated success`);
-      setFlag((prev) => !prev);
+      // Clean attributes before sending - remove temp IDs and fix isHighlight
+      const cleanedProduct = {
+        ...editProduct,
+        attributes: editProduct.attributes?.map(attr => ({
+          ...attr,
+          isHighlight: attr.isHighlight === 'true' || attr.isHighlight === true,
+          ...(attr._id?.startsWith('temp-') && { _id: undefined }) // Remove temp IDs
+        }))
+      };
+      console.log("cleanedProduct", cleanedProduct);
+      const res = await dispatch(updateProduct({ 
+        id: editProduct._id, 
+        formData: cleanedProduct 
+      }));
+  
+      setNewImagePreviews([]);
+      toast.success(`${editProduct.name} updated successfully`);
+      setFlag(prev => !prev);
+      setEditProduct(null);
+  
     } catch (err) {
-      console.log(err);
-      toast.error("Error while updating product.");
+      console.error("Update error:", err);
+      toast.error(err.response?.data?.error || "Error updating product");
     }
-    // setFlag((prev)=>!prev)
-    // alert(`Product with ID: ${editProduct._id} has been updated.`);
-    setEditProduct(null); // Close the edit popup after submission
   };
 
   const handleInputChange = (e) => {
@@ -387,6 +434,13 @@ const AdminProducts = () => {
               <strong>Title:</strong> {selectedProduct.name}
             </p>
             <p>
+              <strong>Description:</strong> {selectedProduct.description}
+            </p>
+            <p>
+
+
+            </p>
+            <p>
               <strong>Offer Price:</strong> ₹{selectedProduct.salePrice}
             </p>
             <p>
@@ -433,6 +487,16 @@ const AdminProducts = () => {
                   className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-main"
                 />
               </div>
+              <div>
+                <label className="font-medium">Decription</label>
+                <textarea
+                  name="description"
+                  defaultValue={editProduct.description}
+
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-main"
+                />
+              </div>
 
               <div>
                 <label className="font-medium">Offer Price</label>
@@ -472,6 +536,47 @@ const AdminProducts = () => {
                   <option value="out of stock">Out of Stock</option>
                 </select>
               </div>
+
+              <div>
+                <label className="font-medium">Available Sizes</label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {editProduct.attributes
+                    ?.filter(attr => attr.name === "size")
+                    .map((sizeAttr, index) => (
+                      <div key={sizeAttr._id} className="flex items-center bg-gray-100 px-3 py-1 rounded">
+                        <span>{sizeAttr.value}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveSize(sizeAttr._id)}
+                          className="ml-1 text-red-500"
+                        >
+                          <IoMdCloseCircle size={14} />
+                        </button>
+                      </div>
+                    ))}
+                </div>
+
+                <div className="flex items-center mt-3">
+                  <select
+                    value={newSize}
+                    onChange={(e) => setNewSize(e.target.value)}
+                    className="flex-1 p-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="">Select a size</option>
+                    {['S', 'M', 'L', 'XL', 'XXL'].map(size => (
+                      <option key={size} value={size}>{size}</option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={handleAddSize}
+                    className="ml-2 bg-main text-white px-3 py-2 rounded-md"
+                  >
+                    Add Size
+                  </button>
+                </div>
+              </div>
+
 
               {/* Image URL */}
               <div>

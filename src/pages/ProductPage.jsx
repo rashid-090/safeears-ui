@@ -32,6 +32,7 @@ function ProductPage() {
   let [currentImage, setCurrentImage] = useState([]);
   const [flag, setFlag] = useState(false)
   const [hasRated, setHasRated] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
 
 
   const { user } = useSelector((state) => state.user);
@@ -46,6 +47,7 @@ function ProductPage() {
 
         // console.log(data)
         if (data) {
+          console.log(data.product);
           setProduct(data.product);
           setLoading(false);
           const allImages = [data.product.imageURL, ...data.product.moreImageURL];
@@ -77,29 +79,37 @@ function ProductPage() {
     if (!user) {
       return navigate("/login");
     }
+
+    // Validate size selection if product has sizes
+    const hasSizes = product?.attributes?.some(attr => attr.name === "size");
+    if (hasSizes && !selectedSize) {
+      toast.error("Please select a size");
+      return;
+    }
+
     setCartLoading(true);
 
-    await axios
-      .post(
+    try {
+      await axios.post(
         `${URL}/user/cart`,
         {
           product: id,
           quantity: count,
+          size: hasSizes ? selectedSize : undefined // Only include size if product has sizes
         },
         { ...config, withCredentials: true }
-      )
-      .then((data) => {
-        // console.log(data);
+      );
 
-        toast.success("Added to cart");
-        setCartLoading(false);
-      })
-      .catch((error) => {
-        const err = error.response.data.error;
-        setCartLoading(false);
-      });
-
-    dispatch(getCart());
+      toast.success("Added to cart");
+      setSelectedSize(null); // Reset selected size after adding to cart  
+      setCount(1); // Reset count to 1 after adding to cart 
+      dispatch(getCart()); // Refresh cart data
+    } catch (error) {
+      const err = error.response?.data?.error || "Failed to add to cart";
+      toast.error(err);
+    } finally {
+      setCartLoading(false);
+    }
   };
 
   const handleBackClick = () => {
@@ -224,24 +234,52 @@ function ProductPage() {
                 <p className="text-[9px] text-center justify-center font-medium flex gap-1 capitalize items-center">
                   {product?.ratings ? renderStars(product?.ratings) : "No reviews yet"}
                 </p>
-                <div className="h-[2px] w-full bg-gray-300 mb-1" />
-                <p className="text-[#69b886] uppercase">regular size</p>
 
               </div>
             </div>
             <div className="flex flex-col items-center gap-7">
+
+
+              {/* Size Selection */}
+              {product?.attributes?.some(attr => attr.name === "size") && (
+                <div className="flex flex-col items-center gap-2 mb-4">
+                  <p className="text-sm font-medium">Select Size:</p>
+                  <div className="flex gap-2">
+                    {product.attributes
+                      .filter(attr => attr.name === "size")
+                      .map((sizeAttr) => (
+                        <button
+                          key={sizeAttr._id}
+                          type="button"
+                          onClick={() => setSelectedSize(sizeAttr.value)}
+                          className={`px-3 py-1 border rounded-md text-sm ${selectedSize === sizeAttr.value
+                            ? "bg-black text-white border-black"
+                            : "border-gray-300 hover:border-black"
+                            }`}
+                        >
+                          {sizeAttr.value}
+                        </button>
+                      ))}
+                  </div>
+                </div>
+              )}
+
               <div className="flex border border-black rounded-lg overflow-hidden text-sm">
-                {cart?.some((item) => item.product._id === product._id) ? (
+                {/* Check if the exact product with the same size exists in cart */}
+                {cart?.some((item) =>
+                  item.product._id === product._id &&
+                  item.size === selectedSize
+                ) ? (
                   ""
                 ) : (
                   <>
                     <button
-                      className={`w-6 grid place-items-center h-6 ${product.quantity === 1
-                        ? "bg-black text-white cursor-not-allowed"
-                        : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
+                      className={`w-6 grid place-items-center h-6 ${count === 1
+                          ? "bg-black text-white cursor-not-allowed"
+                          : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
                         } duration-200`}
                       onClick={decrement}
-                      disabled={product.quantity === 1}
+                      disabled={count === 1}
                     >
                       <FiMinus />
                     </button>
@@ -249,18 +287,19 @@ function ProductPage() {
                       {count}
                     </span>
                     <button
-                      className={`w-6 grid place-items-center h-6 ${product.quantity === 6
-                        ? "bg-black text-white cursor-not-allowed"
-                        : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
+                      className={`w-6 grid place-items-center h-6 ${count === 6
+                          ? "bg-black text-white cursor-not-allowed"
+                          : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
                         } duration-200`}
                       onClick={increment}
-                      disabled={product.quantity === 6}
+                      disabled={count === 6}
                     >
                       <GoPlus />
                     </button>
                   </>
                 )}
               </div>
+
               {cartLoading ? (
                 <button
                   disabled={cartLoading}
@@ -268,8 +307,10 @@ function ProductPage() {
                 >
                   Adding to cart
                 </button>
-              ) : cart?.length !== 0 &&
-                cart?.some((item) => item.product._id === product._id) ? (
+              ) : cart?.some((item) =>
+                item.product._id === product._id &&
+                item.size === selectedSize
+              ) ? (
                 <button
                   onClick={() => goToCart()}
                   className="text-xs p-2 text-white bg-black hover:bg-main duration-200 w-full py-1 rounded-lg capitalize font-medium"
@@ -278,13 +319,22 @@ function ProductPage() {
                 </button>
               ) : (
                 <button
-                  onClick={() => addToCart(product._id)}
-                  className="text-xs p-2 text-white bg-black hover:bg-main duration-200 w-full py-1 rounded-lg capitalize font-medium"
+                  onClick={() => addToCart()}
+                  className={`text-xs p-2 text-white w-full py-1 rounded-lg capitalize font-medium ${product?.attributes?.some(attr => attr.name === "size") && !selectedSize
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-black hover:bg-main duration-200"
+                    }`}
+                  disabled={
+                    product?.attributes?.some(attr => attr.name === "size") && !selectedSize
+                  }
                 >
-                  Add to cart
+                  {product?.attributes?.some(attr => attr.name === "size") && !selectedSize
+                    ? "Select size"
+                    : "Add to cart"}
                 </button>
               )}
             </div>
+
           </div>
 
           {/* shopping */}

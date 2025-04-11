@@ -31,7 +31,7 @@ const OrderDetail = () => {
     setLoading(true);
     try {
       const res = await axios.get(`${URL}/user/order/${id}`, config);
-
+      console.log(res.data.order.products);
       if (res) {
         setOrderData(res.data.order);
         setLoading(false);

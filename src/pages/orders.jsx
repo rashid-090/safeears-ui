@@ -21,7 +21,7 @@ import {
   incrementCount,
 } from "../redux/actions/user/cartActions";
 import CheckoutPaymentOption from "../components/CheckoutPaymentOption";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import { URL } from "../Common/api";
 import { config } from "../Common/configurations";
@@ -86,7 +86,8 @@ const Orders = () => {
     resolver: yupResolver(schema),
   });
 
-  const { user, addresses, loading } = useSelector((state) => state.address);
+  const {  addresses, loading } = useSelector((state) => state.address);
+  const { user } = useSelector((state) => state.user);
   const { cart, cartId, totalPrice, totalMrpPrice } = useSelector(
     (state) => state.cart
   );
@@ -200,6 +201,7 @@ const Orders = () => {
       config
     );
     const selected = addresses.find(address => address._id === selectedAddress);
+
 
 
     // setting razor pay configurations

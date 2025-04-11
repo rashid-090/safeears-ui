@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { cloudinary } from "../utils/cloudinaryBaseUrl";
 import { FaEye, FaRupeeSign } from "react-icons/fa";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { URL } from "../Common/api";
 import { config } from "../Common/configurations";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,8 +77,8 @@ const Product = ({ item }) => {
         onClick={() => navigate(`/shop/${item._id}`)}
         className="cursor-pointer group overflow-hidden h-28 w-28 relative rounded-2xl"
       >
-      <div className="w-full h-full relative overflow-hidden">
-        <img
+        <div className="w-full h-full relative overflow-hidden">
+          <img
             className="aspect-square h-full w-full object-cover rounded-2xl group-hover:opacity-50 duration-300"
             src={`${cloudinary}/${item.imageURL}`}
             alt={item.name}
@@ -87,10 +87,10 @@ const Product = ({ item }) => {
           <p className="hidden group-hover:block duration-500 absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-center text-black text-xl ">
             <FaEye />
           </p>
-        <div className="absolute text-[7px] w-full py-1 text-center capitalize font-semibold bottom-0 right-0 bg-main text-black">
-          keep your ears dry
+          <div className="absolute text-[7px] w-full py-1 text-center capitalize font-semibold bottom-0 right-0 bg-main text-black">
+            keep your ears dry
+          </div>
         </div>
-      </div>
       </div>
       <div className="flex flex-col gap-1">
         <p className="text-[9px] font-medium flex gap-1 capitalize items-center">
@@ -126,7 +126,13 @@ const Product = ({ item }) => {
           <div className="h-[2px] w-full bg-gray-300 mb-1" />
           <p className="text-[#69b886] uppercase">regular size</p>
         </div>
-        {cartLoading ? (
+        <button
+          onClick={() => navigate(`/shop/${item?._id}`)}
+          className="text-xs text-white bg-black hover:bg-main duration-200 w-full py-1 rounded-lg capitalize font-medium"
+        >
+          View Product
+        </button>
+        {/* {cartLoading ? (
           <button
             disabled={cartLoading}
             className="text-xs text-white bg-black hover:bg-main duration-200 w-full py-1 rounded-lg capitalize font-medium"
@@ -148,7 +154,7 @@ const Product = ({ item }) => {
           >
             Add to cart
           </button>
-        )}
+        )} */}
       </div>
     </div>
   );

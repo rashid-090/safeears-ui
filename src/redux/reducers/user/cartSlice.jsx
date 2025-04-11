@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    
+
     loading: false,
     cart: [],
     error: null,
@@ -43,7 +43,7 @@ const cartSlice = createSlice({
       // state.tax = sum * 0.08;
       state.totalMrpPrice = sum2;
 
-      
+
     },
     clearCartOnOrderPlaced: (state) => {
       state.loading = false;
@@ -120,16 +120,17 @@ const cartSlice = createSlice({
       .addCase(incrementCount.fulfilled, (state, { payload }) => {
         state.countLoading = false;
         state.error = null;
-        const updatedCart = state.cart.map((cartItem) => {
-          if (cartItem.product._id === payload.updatedItem.product) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity + 1,
-            };
-          }
-          return cartItem;
+
+        if (!payload?.updatedItem) return; // Safety check
+
+        state.cart = state.cart.map(item => {
+          const isMatch = item.product._id === payload.updatedItem.product &&
+            item.size === payload.updatedItem.size;
+
+          return isMatch
+            ? { ...item, quantity: payload.updatedItem.quantity }
+            : item;
         });
-        state.cart = updatedCart;
       })
       .addCase(incrementCount.rejected, (state, { payload }) => {
         state.countLoading = false;
@@ -142,16 +143,17 @@ const cartSlice = createSlice({
       .addCase(decrementCount.fulfilled, (state, { payload }) => {
         state.countLoading = false;
         state.error = null;
-        const updatedCart = state.cart.map((cartItem) => {
-          if (cartItem.product._id === payload.updatedItem.product) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity - 1,
-            };
-          }
-          return cartItem;
+
+        if (!payload?.updatedItem) return; // Safety check
+
+        state.cart = state.cart.map(item => {
+          const isMatch = item.product._id === payload.updatedItem.product &&
+            item.size === payload.updatedItem.size;
+
+          return isMatch
+            ? { ...item, quantity: payload.updatedItem.quantity } // Use server quantity
+            : item;
         });
-        state.cart = updatedCart;
       })
       .addCase(decrementCount.rejected, (state, { payload }) => {
         state.countLoading = false;

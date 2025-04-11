@@ -47,11 +47,11 @@ export const deleteOneProduct = createAsyncThunk(
 // Incrementing the count of one product
 export const incrementCount = createAsyncThunk(
   "cart/incrementCount",
-  async ({ cartId, productId }, { rejectWithValue }) => {
+  async ({ cartId, productId, size }, { rejectWithValue }) => {
     return commonReduxRequest(
       "patch",
       `/user/cart-increment-quantity/${cartId}/item/${productId}`,
-      {},
+      { size: size },
       appJson,
       rejectWithValue
     );
@@ -61,11 +61,11 @@ export const incrementCount = createAsyncThunk(
 // Decrementing the count of one product
 export const decrementCount = createAsyncThunk(
   "cart/decrementCount",
-  async ({ cartId, productId }, { rejectWithValue }) => {
+  async ({ cartId, productId, size }, { rejectWithValue }) => {
     return commonReduxRequest(
       "patch",
       `/user/cart-decrement-quantity/${cartId}/item/${productId}`,
-      {},
+      { size: size },
       appJson,
       rejectWithValue
     );

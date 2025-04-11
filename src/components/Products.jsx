@@ -7,7 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { cloudinary } from "../utils/cloudinaryBaseUrl";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { commonRequest, URL } from "../Common/api";
 import { appJson, config } from "../Common/configurations";
 import { useDispatch, useSelector } from "react-redux";

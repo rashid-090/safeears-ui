@@ -9,7 +9,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginUser } from "../redux/actions/userActions";
 import { updateError } from "../redux/reducers/userSlice";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import LoginWithPhone from "../components/LoginWithPhone";
 
 const LoginPage = () => {

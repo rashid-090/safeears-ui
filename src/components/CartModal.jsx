@@ -107,9 +107,8 @@ const CartModal = () => {
       )}
       {/* Modal */}
       <div
-        className={`fixed top-0 right-0 h-full w-full xl:w-[400px] bg-white shadow-lg transition-transform duration-300 z-[99999] ${
-          cartOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-full xl:w-[400px] bg-white shadow-lg transition-transform duration-300 z-[99999] ${cartOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         {/* Close Button */}
         <button
@@ -126,51 +125,57 @@ const CartModal = () => {
 
             {cart
               ? cart.map((item) => {
-                  return (
-                    <div
-                      key={item._id}
-                      className="flex flex-row gap-3  items-center justify-center bg-gray-200  border p-3 rounded-2xl"
-                    >
-                      <div className="overflow-hidden h-20 w-20 relative rounded-2xl">
-                        <img
-                          className="w-full h-full object-cover rounded-2xl hover:opacity-90 duration-300"
-                          src={`${cloudinary}/${item?.product?.imageURL}`}
-                          alt=""
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <h1 className="text-sm font-semibold capitalize cursor-pointer">
-                          {item?.product?.name}
-                        </h1>
-                        <div className="flex  font-semibold gap-2 text-xs">
-                          <p className="flex">
-                            <FaRupeeSign /> {item.product.salePrice}
-                          </p>
-                          <div className="relative text-gray-400 flex">
-                            <FaRupeeSign /> {item.product.mrpPrice}
-                            <span className="absolute top-[40%] left-0 rotate-12 h-[1.5px] w-full bg-red-400"></span>
-                          </div>
-                          <p className="text-[#69b886]">
-                            {Math.round(
-                              ((item.product.mrpPrice -
-                                item.product.salePrice) /
-                                item.product.mrpPrice) *
-                                100
-                            )}{" "}
-                            % off
-                          </p>
-                        </div>
-                        <div className=" w-full">
-                          <p className="text-xs text-start ">
-                            Total : {item.product.salePrice * item.quantity}
-                          </p>
-                        </div>
-                        <ProductQuantityButton toggleProductConfirm={toggleProductConfirm} item={item}/>
-                      </div>
+                return (
+                  <div
+                    key={item._id}
+                    className="flex flex-row gap-3  items-center justify-center bg-gray-200  border p-3 rounded-2xl"
+                  >
+                    <div className="overflow-hidden h-20 w-20 relative rounded-2xl">
+                      <img
+                        className="w-full h-full object-cover rounded-2xl hover:opacity-90 duration-300"
+                        src={`${cloudinary}/${item?.product?.imageURL}`}
+                        alt=""
+                        loading="lazy"
+                      />
                     </div>
-                  );
-                })
+                    <div className="flex flex-col items-center gap-2">
+                      <h1 className="text-sm font-semibold capitalize cursor-pointer">
+                        {item?.product?.name}
+                      </h1>
+                      {/* Display selected size if it exists */}
+                      {item?.size && (
+                        <div className="text-sm font-medium">
+                          Size: <span className="font-bold">{item.size}</span>
+                        </div>
+                      )}
+                      <div className="flex  font-semibold gap-2 text-xs">
+                        <p className="flex">
+                          <FaRupeeSign /> {item.product.salePrice}
+                        </p>
+                        <div className="relative text-gray-400 flex">
+                          <FaRupeeSign /> {item.product.mrpPrice}
+                          <span className="absolute top-[40%] left-0 rotate-12 h-[1.5px] w-full bg-red-400"></span>
+                        </div>
+                        <p className="text-[#69b886]">
+                          {Math.round(
+                            ((item.product.mrpPrice -
+                              item.product.salePrice) /
+                              item.product.mrpPrice) *
+                            100
+                          )}{" "}
+                          % off
+                        </p>
+                      </div>
+                      <div className=" w-full">
+                        <p className="text-xs text-center font-bold  capitalize"> 
+                          Total : {item.product.salePrice * item.quantity}
+                        </p>
+                      </div>
+                      <ProductQuantityButton toggleProductConfirm={toggleProductConfirm} item={item} />
+                    </div>
+                  </div>
+                );
+              })
               : null}
             {cart?.length === 0 && <EmptyCart closeCart={onClose} />}
           </div>
@@ -193,9 +198,8 @@ const CartModal = () => {
                   toast.error("No product in cart");
                 }
               }}
-              className={`bg-main hover:bg-yellow-600 duration-300 w-full text-black text-xl font-semibold py-2    rounded-xl ${
-                cart?.length === 0 && " hover:cursor-not-allowed"
-              } `}
+              className={`bg-main hover:bg-yellow-600 duration-300 w-full text-black text-xl font-semibold py-2    rounded-xl ${cart?.length === 0 && " hover:cursor-not-allowed"
+                } `}
             >
               Place Orders
             </button>
