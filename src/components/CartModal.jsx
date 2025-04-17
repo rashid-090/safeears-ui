@@ -123,6 +123,8 @@ const CartModal = () => {
           <div className="divide-x-2 flex justify-between flex-col gap-2">
             {/* products */}
 
+
+            {console.log("cart item", cart)}
             {cart
               ? cart.map((item) => {
                 return (
@@ -150,25 +152,25 @@ const CartModal = () => {
                       )}
                       <div className="flex  font-semibold gap-2 text-xs">
                         <p className="flex">
-                          <FaRupeeSign /> {item.product.salePrice}
+                          <FaRupeeSign /> {item?.product?.salePrice}
                         </p>
                         <div className="relative text-gray-400 flex">
-                          <FaRupeeSign /> {item.product.mrpPrice}
+                          <FaRupeeSign /> {item?.product?.mrpPrice}
                           <span className="absolute top-[40%] left-0 rotate-12 h-[1.5px] w-full bg-red-400"></span>
                         </div>
                         <p className="text-[#69b886]">
                           {Math.round(
-                            ((item.product.mrpPrice -
-                              item.product.salePrice) /
-                              item.product.mrpPrice) *
+                            ((item?.product?.mrpPrice -
+                              item?.product?.salePrice) /
+                              item?.product?.mrpPrice) *
                             100
                           )}{" "}
                           % off
                         </p>
                       </div>
                       <div className=" w-full">
-                        <p className="text-xs text-center font-bold  capitalize"> 
-                          Total : {item.product.salePrice * item.quantity}
+                        <p className="text-xs text-center font-bold  capitalize">
+                          Total : {item?.product?.salePrice * item?.quantity}
                         </p>
                       </div>
                       <ProductQuantityButton toggleProductConfirm={toggleProductConfirm} item={item} />

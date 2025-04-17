@@ -30,14 +30,14 @@ const cartSlice = createSlice({
   reducers: {
     calculateTotalPrice: (state) => {
       let sum = state.cart?.reduce(
-        (total, item) => total + item.product.salePrice * item.quantity,
+        (total, item) => total + item?.product?.salePrice * item.quantity,
         0
       );
       // state.tax = sum * 0.08;
       state.totalPrice = sum;
 
       let sum2 = state.cart?.reduce(
-        (total, item) => total + item.product.mrpPrice * item.quantity,
+        (total, item) => total + item.product?.mrpPrice * item.quantity,
         0
       );
       // state.tax = sum * 0.08;

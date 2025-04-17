@@ -30,6 +30,7 @@ import { useNavigate } from "react-router-dom";
 import { clearCartOnOrderPlaced } from "../redux/reducers/user/cartSlice";
 import SingleProductOnCheckOut from "../components/SingleProductOnCheckOut";
 import ClipLoader from "react-spinners/ClipLoader";
+import AddressForm from "../components/AddressForm";
 
 const Orders = () => {
   const [activeStep, setActiveStep] = useState(2);
@@ -86,7 +87,7 @@ const Orders = () => {
     resolver: yupResolver(schema),
   });
 
-  const {  addresses, loading } = useSelector((state) => state.address);
+  const { addresses, loading } = useSelector((state) => state.address);
   const { user } = useSelector((state) => state.user);
   const { cart, cartId, totalPrice, totalMrpPrice } = useSelector(
     (state) => state.cart
@@ -336,6 +337,7 @@ const Orders = () => {
                             key={index}
                             selectedAddress={selectedAddress}
                             setSelectedAddress={setSelectedAddress}
+                            onEditSuccess={() => dispatch(getAddresses())} // Refresh addresses after edit
                           />
                         );
                       })}
