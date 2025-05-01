@@ -23,7 +23,7 @@ const AddProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Size options - you can customize these
-  const sizeOptions = ["S", "M", "L", "XL", "XXL", "XXXL"];
+  const sizeOptions = ["XS","S", "M", "L", "XL", "XXL", "XXXL"];
 
   // Single Image Upload (Primary Image)
   const singleImageDropzone = useDropzone({

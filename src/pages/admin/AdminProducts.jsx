@@ -563,7 +563,7 @@ const AdminProducts = () => {
                     className="flex-1 p-2 border border-gray-300 rounded-md"
                   >
                     <option value="">Select a size</option>
-                    {['S', 'M', 'L', 'XL', 'XXL'].map(size => (
+                    {['XS','S', 'M', 'L', 'XL', 'XXL'].map(size => (
                       <option key={size} value={size}>{size}</option>
                     ))}
                   </select>

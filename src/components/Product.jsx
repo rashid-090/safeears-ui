@@ -72,7 +72,7 @@ const Product = ({ item }) => {
   };
 
   return (
-    <div className="bg-white w-full h-full px-5 xl:px-2 py-2 rounded-2xl flex justify-center items-center gap-10 md:gap-5 xl:gap-3">
+    <div className="bg-white w-full h-full px-5 xl:px-2 py-3 rounded-2xl flex justify-center items-center gap-10 md:gap-5 xl:gap-3">
       <div
         onClick={() => navigate(`/shop/${item._id}`)}
         className="cursor-pointer group overflow-hidden h-28 w-28 relative rounded-2xl"
@@ -93,10 +93,10 @@ const Product = ({ item }) => {
         </div>
       </div>
       <div className="flex flex-col gap-1">
-        <p className="text-[9px] font-medium flex gap-1 capitalize items-center">
+        {/* <p className="text-[9px] font-medium flex gap-1 capitalize items-center">
           <IoIosStar className="text-main text-base" />
           Be first to review
-        </p>
+        </p> */}
         <h1
           className="text-xs font-semibold text-center capitalize cursor-pointer"
           onClick={() => navigate(`/shop/${item?._id}`)}
@@ -120,11 +120,11 @@ const Product = ({ item }) => {
         </div>
         <div className="text-center text-xs font-bold text-[#69b886] capitalize">
           <p className="text-[10px]">{item?.status}</p>
-          <p className="text-[9px] text-center justify-center font-medium flex gap-1 capitalize items-center">
+          <p className="text-[9px] mb-1 text-center justify-center font-medium flex gap-1 capitalize items-center">
             {item?.ratings ? renderStars(item?.ratings) : "No reviews yet"}
           </p>
-          <div className="h-[2px] w-full bg-gray-300 mb-1" />
-          <p className="text-[#69b886] uppercase">regular size</p>
+          <div className="h-[1.5px] w-full bg-gray-300 mb-1" />
+          {/* <p className="text-[#69b886] uppercase">regular size</p> */}
         </div>
         <button
           onClick={() => navigate(`/shop/${item?._id}`)}

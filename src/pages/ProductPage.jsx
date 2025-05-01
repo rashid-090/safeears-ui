@@ -205,10 +205,10 @@ function ProductPage() {
               </span>
             </div>
             <div className="flex flex-col items-center gap-2 md:gap-1">
-              <p className="text-xs font-medium flex gap-1 capitalize items-center">
+              {/* <p className="text-xs font-medium flex gap-1 capitalize items-center">
                 <IoIosStar className="text-main text-base" />
                 Be first to review
-              </p>
+              </p> */}
               <h1 className="text-lg font-semibold capitalize cursor-pointer">
                 {product?.name}
               </h1>
