@@ -4,7 +4,8 @@ const OrderHistoryAddress = ({ title, address }) => {
   return (
     <div className="border-b lg:border-b-0 lg:border-r p-5 lg:w-1/3">
       <h1 className="text-xl">{title}</h1>
-      <p className="pt-5 pb-2">
+      <h1 className="pt-5 ">Name : <span className="text-gray-500 text-lg">{address.name}</span></h1>
+      <p className="pt-3 pb-2">
         {address.firstName} {address.lastName}{" "}
       </p>
       <p className="text-gray-500">

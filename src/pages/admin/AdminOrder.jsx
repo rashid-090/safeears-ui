@@ -115,6 +115,7 @@ const AdminOrderDetails = () => {
                     />
                   </div>
                 )}
+                {/* {console.log(orderData,"orderdata")} */}
               {/* Product table */}
               <div className="px-5 w-full border-b mt-3">
                 <h1 className="text-lg font-semibold pb-3">
