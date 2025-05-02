@@ -236,106 +236,114 @@ function ProductPage() {
                 </p>
 
               </div>
+
             </div>
-            <div className="flex flex-col items-center gap-7">
+            {
+              product?.status === "in stock" ?
+                (
+                  <div className="flex flex-col items-center gap-7">
 
 
-              {/* Size Selection */}
-              {product?.attributes?.some(attr => attr.name === "size") && (
-                <div className="flex flex-col items-center gap-2 mb-4">
-                  <p className="text-sm font-medium">Select Size:</p>
-                  <div className="flex gap-2">
-                    {product.attributes
-                      .filter(attr => attr.name === "size")
-                      .map((sizeAttr) => (
-                        <button
-                          key={sizeAttr._id}
-                          type="button"
-                          onClick={() => setSelectedSize(sizeAttr.value)}
-                          className={`px-3 py-1 border rounded-md text-sm ${selectedSize === sizeAttr.value
-                            ? "bg-black text-white border-black"
-                            : "border-gray-300 hover:border-black"
-                            }`}
-                        >
-                          {sizeAttr.value}
-                        </button>
-                      ))}
+                    {/* Size Selection */}
+                    {product?.attributes?.some(attr => attr.name === "size") && (
+                      <div className="flex flex-col items-center gap-2 mb-4">
+                        <p className="text-sm font-medium">Select Size:</p>
+                        <div className="flex gap-2">
+                          {product.attributes
+                            .filter(attr => attr.name === "size")
+                            .map((sizeAttr) => (
+                              <button
+                                key={sizeAttr._id}
+                                type="button"
+                                onClick={() => setSelectedSize(sizeAttr.value)}
+                                className={`px-3 py-1 border rounded-md text-sm ${selectedSize === sizeAttr.value
+                                  ? "bg-black text-white border-black"
+                                  : "border-gray-300 hover:border-black"
+                                  }`}
+                              >
+                                {sizeAttr.value}
+                              </button>
+                            ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex border border-black rounded-lg overflow-hidden text-sm">
+                      {/* Check if the exact product with the same size exists in cart */}
+                      {cart?.some((item) =>
+                        item.product._id === product._id &&
+                        item.size === selectedSize
+                      ) ? (
+                        ""
+                      ) : (
+                        <>
+                          <button
+                            className={`w-6 grid place-items-center h-6 ${count === 1
+                              ? "bg-black text-white cursor-not-allowed"
+                              : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
+                              } duration-200`}
+                            onClick={decrement}
+                            disabled={count === 1}
+                          >
+                            <FiMinus />
+                          </button>
+                          <span className="w-6 grid place-items-center h-6">
+                            {count}
+                          </span>
+                          <button
+                            className={`w-6 grid place-items-center h-6 ${count === 6
+                              ? "bg-black text-white cursor-not-allowed"
+                              : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
+                              } duration-200`}
+                            onClick={increment}
+                            disabled={count === 6}
+                          >
+                            <GoPlus />
+                          </button>
+                        </>
+                      )}
+                    </div>
+
+                    {cartLoading ? (
+                      <button
+                        disabled={cartLoading}
+                        className="text-xs p-2 text-white bg-black hover:bg-main duration-200 w-full py-1 rounded-lg capitalize font-medium"
+                      >
+                        Adding to cart
+                      </button>
+                    ) : cart?.some((item) =>
+                      item.product._id === product._id &&
+                      item.size === selectedSize
+                    ) ? (
+                      <button
+                        onClick={() => goToCart()}
+                        className="text-xs p-2 text-white bg-black hover:bg-main duration-200 w-full py-1 rounded-lg capitalize font-medium"
+                      >
+                        Go to cart
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => addToCart()}
+                        className={`text-xs p-2 text-white w-full py-1 rounded-lg capitalize font-medium ${product?.attributes?.some(attr => attr.name === "size") && !selectedSize
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-black hover:bg-main duration-200"
+                          }`}
+                        disabled={
+                          product?.attributes?.some(attr => attr.name === "size") && !selectedSize
+                        }
+                      >
+                        {product?.attributes?.some(attr => attr.name === "size") && !selectedSize
+                          ? "Select size"
+                          : "Add to cart"}
+                      </button>
+                    )}
                   </div>
-                </div>
-              )}
+                ) : null
+            }
 
-              <div className="flex border border-black rounded-lg overflow-hidden text-sm">
-                {/* Check if the exact product with the same size exists in cart */}
-                {cart?.some((item) =>
-                  item.product._id === product._id &&
-                  item.size === selectedSize
-                ) ? (
-                  ""
-                ) : (
-                  <>
-                    <button
-                      className={`w-6 grid place-items-center h-6 ${count === 1
-                          ? "bg-black text-white cursor-not-allowed"
-                          : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
-                        } duration-200`}
-                      onClick={decrement}
-                      disabled={count === 1}
-                    >
-                      <FiMinus />
-                    </button>
-                    <span className="w-6 grid place-items-center h-6">
-                      {count}
-                    </span>
-                    <button
-                      className={`w-6 grid place-items-center h-6 ${count === 6
-                          ? "bg-black text-white cursor-not-allowed"
-                          : "bg-black hover:bg-white text-white hover:text-black cursor-pointer"
-                        } duration-200`}
-                      onClick={increment}
-                      disabled={count === 6}
-                    >
-                      <GoPlus />
-                    </button>
-                  </>
-                )}
-              </div>
-
-              {cartLoading ? (
-                <button
-                  disabled={cartLoading}
-                  className="text-xs p-2 text-white bg-black hover:bg-main duration-200 w-full py-1 rounded-lg capitalize font-medium"
-                >
-                  Adding to cart
-                </button>
-              ) : cart?.some((item) =>
-                item.product._id === product._id &&
-                item.size === selectedSize
-              ) ? (
-                <button
-                  onClick={() => goToCart()}
-                  className="text-xs p-2 text-white bg-black hover:bg-main duration-200 w-full py-1 rounded-lg capitalize font-medium"
-                >
-                  Go to cart
-                </button>
-              ) : (
-                <button
-                  onClick={() => addToCart()}
-                  className={`text-xs p-2 text-white w-full py-1 rounded-lg capitalize font-medium ${product?.attributes?.some(attr => attr.name === "size") && !selectedSize
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-black hover:bg-main duration-200"
-                    }`}
-                  disabled={
-                    product?.attributes?.some(attr => attr.name === "size") && !selectedSize
-                  }
-                >
-                  {product?.attributes?.some(attr => attr.name === "size") && !selectedSize
-                    ? "Select size"
-                    : "Add to cart"}
-                </button>
-              )}
-            </div>
 
           </div>
+
 
           {/* shopping */}
           <div>
