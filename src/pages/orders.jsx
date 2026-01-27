@@ -141,6 +141,42 @@ const Orders = () => {
     setSelectedPayment(e.target.value);
   };
 
+  const [selectedHospital, setSelectedHospital] = useState("");
+  const [selectedDoctor, setSelectedDoctor] = useState("");
+  const [hospitals, setHospitals] = useState([]);
+  const [doctors, setDoctors] = useState([]);
+
+  // Fetch Active Hospitals
+  useEffect(() => {
+    const fetchHospitals = async () => {
+      try {
+        const { data } = await axios.get(`${URL}/user/hospitals?isActive=true`);
+        setHospitals(data.hospitals);
+      } catch (error) {
+        console.error("Error fetching hospitals", error);
+      }
+    };
+    fetchHospitals();
+  }, []);
+
+  // Fetch Doctors when Hospital is selected
+  useEffect(() => {
+    if (selectedHospital) {
+      const fetchDoctors = async () => {
+        try {
+          const { data } = await axios.get(`${URL}/user/doctors?isActive=true&hospital=${selectedHospital}`);
+          setDoctors(data.doctors);
+        } catch (error) {
+          console.error("Error fetching doctors", error);
+        }
+      };
+      fetchDoctors();
+    } else {
+      setDoctors([]);
+      setSelectedDoctor("");
+    }
+  }, [selectedHospital]);
+
   // Saving the order to db
   const saveOrder = async (response) => {
     setOrderPlacedLoading(true);
@@ -152,6 +188,8 @@ const Orders = () => {
         {
           address: selectedAddress,
           paymentMode: selectedPayment,
+          hospital: selectedHospital,
+          doctor: selectedDoctor,
         },
         config
       );
@@ -264,6 +302,11 @@ const Orders = () => {
       return;
     }
 
+    if (hospitals.length > 0 && (!selectedHospital || !selectedDoctor)) {
+      toast.error("Please select Hospital and Doctor");
+      return;
+    }
+
 
 
     if (selectedPayment === "razorPay") {
@@ -280,10 +323,45 @@ const Orders = () => {
   };
 
   const goToNextStep = () => {
+    if (activeStep === 3) {
+      if (hospitals.length > 0 && (!selectedHospital || !selectedDoctor)) {
+        toast.error("Please select Hospital and Doctor");
+        return;
+      }
+    }
     if (activeStep < 4) {
       setActiveStep(activeStep + 1);
     }
   };
+
+  const saveOrderOnCashDeliveryOrMyWallet = async () => {
+    setOrderPlacedLoading(true);
+    try {
+      const orderResponse = await axios.post(
+        `${URL}/user/order`,
+        {
+          address: selectedAddress,
+          paymentMode: selectedPayment,
+          hospital: selectedHospital,
+          doctor: selectedDoctor,
+        },
+        config
+      );
+      const { order } = orderResponse.data;
+      setOrderData(true);
+      toast.success("Order Placed");
+      setOrderPlacedLoading(false);
+      navigateToOrderConfirmation(order);
+      dispatch(clearCartOnOrderPlaced());
+    } catch (error) {
+      console.log(error);
+      const errorMessage =
+        error.response?.data?.error ||
+        "Something went wrong. Please try again.";
+      toast.error(errorMessage);
+      setOrderPlacedLoading(false);
+    }
+  }
 
   const goTOPrevStep = () => {
     if (activeStep > 1) {
@@ -539,7 +617,44 @@ const Orders = () => {
 
                 {cart?.length !== 0 ? (
                   <div className="p-4 border border-t-0 border-main flex flex-col items-center gap-5">
-                    <div className="py-5 divide-y-2 divide-gray-100">
+                    {/* Hospital & Doctor Selection */}
+                    {hospitals.length > 0 && (
+                      <div className="w-full space-y-4 shadow-sm p-4 border rounded">
+                        <h3 className="text-gray-700 font-semibold text-lg">Select Hospital & Doctor <span className="text-red-500">*</span></h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">Hospital</label>
+                            <select
+                              value={selectedHospital}
+                              onChange={(e) => setSelectedHospital(e.target.value)}
+                              className="w-full p-2 border rounded outline-none"
+                            >
+                              <option value="">Select Hospital</option>
+                              {hospitals.map((h) => (
+                                <option key={h._id} value={h._id}>{h.name} - {h.location}</option>
+                              ))}
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">Doctor</label>
+                            <select
+                              value={selectedDoctor}
+                              onChange={(e) => setSelectedDoctor(e.target.value)}
+                              className="w-full p-2 border rounded outline-none"
+                              disabled={!selectedHospital}
+                            >
+                              <option value="">Select Doctor</option>
+                              {doctors.map((d) => (
+                                <option key={d._id} value={d._id}>{d.name} {d.specialization ? `(${d.specialization})` : ""}</option>
+                              ))}
+                            </select>
+                            {!selectedHospital && <p className="text-xs text-gray-500 mt-1">Select a hospital first</p>}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="py-5 divide-y-2 divide-gray-100 w-full">
                       <h3 className="text-gray-500 text-xl pb-3 font-semibold">
                         Price Details
                       </h3>
@@ -554,7 +669,7 @@ const Orders = () => {
                         <p className="text-sm">Delivery Charges</p>
                         <div className="flex gap-1">
                           <div className="relative flex">
-                            <FaRupeeSign /> 80
+                            <FaRupeeSign /> 70
                             <span className="absolute top-[40%] left-0 rotate-12 h-[1.5px] w-full bg-red-400"></span>
                           </div>
                           <span className="text-green-500 font-bold">Free</span>

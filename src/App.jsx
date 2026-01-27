@@ -50,6 +50,12 @@ import { Toaster } from "react-hot-toast";
 import ForgotPassword from "./pages/ForgotPassword";
 import ChangePassword from "./pages/ChangePassword";
 import Testimonials from "./pages/admin/Testimonials";
+import AdminHospitals from "./pages/admin/AdminHospitals";
+import AddHospital from "./pages/admin/AddHospital";
+import AdminDoctors from "./pages/admin/AdminDoctors";
+import AddDoctor from "./pages/admin/AddDoctor";
+import AdminBanners from "./pages/admin/AdminBanners";
+import AddBanner from "./pages/admin/AddBanner";
 
 
 // Admin Layout
@@ -205,6 +211,12 @@ function AdminRoutes() {
         <Route path="payments" element={<Payments />} />
         <Route path="add-product" element={<AddProduct />} />
         <Route path="testimonials" element={<Testimonials />} />
+        <Route path="hospitals" element={<AdminHospitals />} />
+        <Route path="add-hospital" element={<AddHospital />} />
+        <Route path="doctors" element={<AdminDoctors />} />
+        <Route path="add-doctor" element={<AddDoctor />} />
+        <Route path="banners" element={<AdminBanners />} />
+        <Route path="add-banner" element={<AddBanner />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Route>

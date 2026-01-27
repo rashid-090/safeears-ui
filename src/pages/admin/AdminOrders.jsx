@@ -29,6 +29,8 @@ import Pagination from "../../components/Pagination";
 import StatusComponent from "../../components/StatusComponent";
 import { AiOutlineEdit } from "react-icons/ai";
 import UpdateOrder from "../../components/UpdateOrder";
+import axios from "axios";
+import { URL } from "../../Common/api";
 
 const AdminOrders = () => {
   const dispatch = useDispatch();
@@ -59,6 +61,44 @@ const AdminOrders = () => {
   const [page, setPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const [hospitals, setHospitals] = useState([]);
+  const [doctors, setDoctors] = useState([]);
+
+  const selectedHospital = searchParams.get("hospital") || "";
+  const selectedDoctor = searchParams.get("doctor") || "";
+
+  // Fetch Hospitals
+  useEffect(() => {
+    const fetchHospitals = async () => {
+      try {
+        const { data } = await axios.get(`${URL}/admin/hospitals`, { withCredentials: true });
+        setHospitals(data.hospitals);
+      } catch (error) {
+        console.error("Error fetching hospitals", error);
+      }
+    };
+    fetchHospitals();
+  }, []);
+
+  // Fetch Doctors (Strictly by Hospital)
+  useEffect(() => {
+    if (selectedHospital) {
+      const fetchDoctors = async () => {
+        try {
+          // Send hospital ID to fetch doctors associated with that hospital
+          const { data } = await axios.get(`${URL}/admin/doctors?hospital=${selectedHospital}`, { withCredentials: true });
+          setDoctors(data.doctors);
+        } catch (error) {
+          console.error("Error fetching doctors", error);
+          setDoctors([]);
+        }
+      };
+      fetchDoctors();
+    } else {
+      setDoctors([]); // Clear doctors if no hospital is selected
+    }
+  }, [selectedHospital]);
+
   const handleFilter = (type, value) => {
     const params = new URLSearchParams(window.location.search);
     if (value === "") {
@@ -87,6 +127,8 @@ const AdminOrders = () => {
     params.delete("status");
     params.delete("startingDate");
     params.delete("endingDate");
+    params.delete("hospital");
+    params.delete("doctor");
     setSearch("");
     setStartingDate("");
     setEndingDate("");
@@ -147,6 +189,45 @@ const AdminOrders = () => {
               ]}
               handleClick={handleFilter}
             />
+
+            <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+              <InputLabel>Hospital</InputLabel>
+              <Select
+                value={selectedHospital}
+                label="Hospital"
+                onChange={(e) => {
+                  const val = e.target.value;
+                  const params = new URLSearchParams(window.location.search);
+                  if (val === "") {
+                    params.delete("hospital");
+                  } else {
+                    params.set("hospital", val);
+                  }
+                  params.delete("doctor"); // Reset doctor
+                  setSearchParams(params);
+                }}
+              >
+                <MenuItem value=""><em>All</em></MenuItem>
+                {hospitals.map((h) => (
+                  <MenuItem key={h._id} value={h._id}>{h.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+              <InputLabel>Doctor</InputLabel>
+              <Select
+                value={selectedDoctor}
+                label="Doctor"
+                onChange={(e) => handleFilter("doctor", e.target.value)}
+                disabled={!selectedHospital} // Strictly disable if no hospital selected
+              >
+                <MenuItem value=""><em>All</em></MenuItem>
+                {doctors.map((d) => (
+                  <MenuItem key={d._id} value={d._id}>{d.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <div className="flex my-2 gap-3 ">
               <RangeDatePicker
                 handleFilter={handleFilter}
@@ -160,10 +241,10 @@ const AdminOrders = () => {
           </div>
         </div>
         <Paper>
-          
+
           <TableContainer>
 
-            <Table  aria-label="simple table">
+            <Table aria-label="simple table">
               {loading ? (
                 <div className="flex items-center justify-center h-full">
                   <JustLoading size={10} />
@@ -229,8 +310,8 @@ const AdminOrders = () => {
                                   {item.totalQuantity === 1
                                     ? item.totalQuantity + " Product"
                                     : "+" +
-                                      (item.totalQuantity - 1) +
-                                      " Products"}
+                                    (item.totalQuantity - 1) +
+                                    " Products"}
                                 </p>
                               </div>
                             </TableCell>

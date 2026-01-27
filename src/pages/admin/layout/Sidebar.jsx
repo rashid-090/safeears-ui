@@ -8,6 +8,7 @@ import { BsCreditCard } from "react-icons/bs";
 import { GoCodeReview } from "react-icons/go";
 import { IoCloseOutline } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { FaHospital, FaUserMd, FaImages } from "react-icons/fa";
 import { logo } from "../../../assets";
 
 const Sidebar = () => {
@@ -45,6 +46,21 @@ const Sidebar = () => {
       path: "/admin/testimonials",
       icon: <GoCodeReview className="text-xl" />,
     },
+    {
+      label: "Hospitals",
+      path: "/admin/hospitals",
+      icon: <FaHospital className="text-xl" />,
+    },
+    {
+      label: "Doctors",
+      path: "/admin/doctors",
+      icon: <FaUserMd className="text-xl" />,
+    },
+    {
+      label: "Banners",
+      path: "/admin/banners",
+      icon: <FaImages className="text-xl" />,
+    },
   ];
 
   const toggleSidebar = () => {
@@ -62,13 +78,13 @@ const Sidebar = () => {
     if (path === "/admin" && location.pathname === "/admin") {
       return true;
     }
-    
+
     // For nested admin routes, ensure proper matching
     if (path !== "/admin") {
       // This handles exact matches and also cases where the path is followed by a slash and more content
       return location.pathname === path || location.pathname.startsWith(`${path}/`);
     }
-    
+
     return false;
   };
 
@@ -85,21 +101,20 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg transition-transform duration-300 ease-in-out transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:static lg:h-screen`}
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg transition-transform duration-300 ease-in-out transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 lg:static lg:h-screen`}
       >
         {/* Header */}
         <div className="flex items-center justify-between h-16 px-4 bg-black text-white">
           <div className="flex items-center gap-2">
-            <img 
-              src={logo} 
-              alt="Logo" 
-              className="h-8 w-auto object-contain" 
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-8 w-auto object-contain"
             />
             <h1 className="text-lg font-medium">Admin Panel</h1>
           </div>
-          
+
           <button
             className="text-white lg:hidden"
             onClick={closeSidebar}
@@ -117,11 +132,10 @@ const Sidebar = () => {
                 key={index}
                 to={item.path}
                 onClick={closeSidebar}
-                className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors duration-200 ${
-                  isActive(item.path)
-                    ? "bg-main text-white"
-                    : "text-gray-700 hover:bg-blue-100"
-                }`}
+                className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors duration-200 ${isActive(item.path)
+                  ? "bg-main text-white"
+                  : "text-gray-700 hover:bg-blue-100"
+                  }`}
               >
                 {item.icon}
                 <span className="font-medium capitalize">{item.label}</span>
