@@ -17,7 +17,7 @@ const HomePage = () => {
               <div className='flex flex-col gap-3 text-center  border-2 rounded-3xl w-full p-3'>
                   {/* <h3 className='text-3xl uppercase font-semibold'>shop now</h3> */}
                   <a href='https://wa.me/919207066699' target='_blank'><img className='h-16 object-contain rounded-2xl py-1 bg-white hover:bg-gray-200 duration-300 w-full' src={safewht} alt="" /></a>
-                  <a href='https://amzn.in/d/bfwx3Ta' target='_blank'><img className='h-16 object-contain rounded-2xl py-1 bg-white hover:bg-gray-200 duration-300 w-full' src={safeamz} alt="" /></a>
+                  <a href='https://amzn.in/d/04TOIzQW' target='_blank'><img className='h-16 object-contain rounded-2xl py-1 bg-white hover:bg-gray-200 duration-300 w-full' src={safeamz} alt="" /></a>
                   <a href='https://www.flipkart.com/abc-safe-ears96-ear-plug/p/itm3f417da58b7d0?pid=ENPH5AV2QSNHXH4X' target='_blank'><img className='h-16 object-contain rounded-2xl py-1 bg-white hover:bg-gray-200 duration-300 w-full' src={safeflp} alt="" /></a>
               </div>
           </div>

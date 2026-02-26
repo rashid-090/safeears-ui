@@ -177,3 +177,7 @@ th, td {
 .PhoneInputInput{
   outline: none;
 }
+
+.slick-slider button{
+  display: none !important;
+}

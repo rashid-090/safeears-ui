@@ -6,13 +6,14 @@ import { HiMiniArrowSmallLeft, HiMiniArrowSmallRight } from "react-icons/hi2";
 import axios from "axios";
 import { URL } from "../Common/api";
 import { cloudinary } from "../utils/cloudinaryBaseUrl";
-import ClipLoader from "react-spinners/ClipLoader";
+// You can remove ClipLoader if you use the Skeleton approach below
+// import ClipLoader from "react-spinners/ClipLoader"; 
 
 // Modified arrows to accept className for easier hiding
 const NextArrow = ({ onClick, className, style }) => (
   <div
-    className={`hidden  absolute right-0 -bottom-7 transform -translate-y-1/2 z-10 cursor-pointer bg-gray-800 text-white rounded-full p-1 hover:bg-gray-900 transition-colors ${className}`}
-    style={{ ...style, display: onClick ? "block" : "none" }} // extra safety
+    className={`hidden absolute right-0 -bottom-7 transform -translate-y-1/2 z-10 cursor-pointer bg-gray-800 text-white rounded-full p-1 hover:bg-gray-900 transition-colors ${className}`}
+    style={{ ...style, display: onClick ? "block" : "none" }}
     onClick={onClick}
   >
     <HiMiniArrowSmallRight className="text-base xl:text-lg" />
@@ -21,7 +22,7 @@ const NextArrow = ({ onClick, className, style }) => (
 
 const PrevArrow = ({ onClick, className, style }) => (
   <div
-    className={`hidden  absolute right-10 -bottom-7 transform -translate-y-1/2 z-10 cursor-pointer bg-gray-800 text-white rounded-full p-1 hover:bg-gray-900 transition-colors ${className}`}
+    className={`hidden absolute right-10 -bottom-7 transform -translate-y-1/2 z-10 cursor-pointer bg-gray-800 text-white rounded-full p-1 hover:bg-gray-900 transition-colors ${className}`}
     style={{ ...style, display: onClick ? "block" : "none" }}
     onClick={onClick}
   >
@@ -38,11 +39,10 @@ const ImageCarousel = () => {
     const fetchBanners = async () => {
       try {
         const { data } = await axios.get(`${URL}/user/banners`);
-        // Ensure banners is always an array
         setBanners(Array.isArray(data.banners) ? data.banners : []);
       } catch (error) {
         console.error("Error fetching banners:", error);
-        setBanners([]); // Set empty array on error
+        setBanners([]);
       } finally {
         setLoading(false);
       }
@@ -50,19 +50,15 @@ const ImageCarousel = () => {
     fetchBanners();
   }, []);
 
-  // --- FIX START: Dynamic Settings ---
   const settings = {
-    dots: banners.length > 1, // Hide dots if only 1 image
-    infinite: banners.length > 1, // CRITICAL: Disable infinite loop for single items
+    dots: banners.length > 1,
+    infinite: banners.length > 1,
     speed: 500,
-    // Optional: Adjust slidesToShow if you want the single image to be larger or centered
-    // Keeping it 4 means a single image will take up 25% of the width (left aligned)
     slidesToShow: 4,
     slidesToScroll: 1,
-    autoplay: banners.length > 1, // Disable autoplay for single items
+    autoplay: banners.length > 1,
     autoplaySpeed: 3000,
     afterChange: (current) => setActiveSlide(current),
-    // Only show arrows if we have enough items to scroll
     nextArrow: banners.length > 4 ? <NextArrow /> : null,
     prevArrow: banners.length > 4 ? <PrevArrow /> : null,
     customPaging: (i) => {
@@ -75,42 +71,53 @@ const ImageCarousel = () => {
       const colorClass = colors[i % colors.length];
       return (
         <div
-          className={`w-3 h-3 rounded-full ${colorClass} ${activeSlide === i ? "scale-125 transform transition-transform" : ""
-            } hover:bg-opacity-70 transition-colors duration-300 cursor-pointer`}
+          className={`w-3 h-3 rounded-full ${colorClass} ${
+            activeSlide === i ? "scale-125 transform transition-transform" : ""
+          } hover:bg-opacity-70 transition-colors duration-300 cursor-pointer`}
         ></div>
       );
     },
   };
-  // --- FIX END ---
 
+  // --- NEW LOADING STATE: SKELETON LOADER ---
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-[400px]">
-        <ClipLoader size={50} color={"#00756b"} />
+      <div className="pt-16 w-full animate-pulse px-4">
+        {/* Top Slider Skeleton (4 items to match slidesToShow: 4) */}
+        <div className="flex justify-between gap-4 mb-5 overflow-hidden">
+          {[1, 2, 3, 4].map((item) => (
+            <div 
+              key={item} 
+              className="w-1/4 h-24 md:h-32 bg-gray-200 rounded-lg"
+            ></div>
+          ))}
+        </div>
+
+        {/* Bottom Main Image Skeleton */}
+        <div className="w-full flex justify-center mt-5">
+          <div className="h-[300px] md:h-[400px] w-full md:w-3/4 bg-gray-200 rounded-lg"></div>
+        </div>
       </div>
     );
   }
 
-  // --- FIX: Manage "No Images Found" ---
   if (banners.length === 0) {
     return (
       <div className="h-[200px] flex items-center justify-center text-gray-400">
-
+        {/* Optional: Add text here if you want */}
       </div>
     );
-    // return null; // Uncomment this line if you prefer to hide the section entirely
   }
 
   return (
     <div className="pt-8 relative">
-      {/* Key is important! If banners length changes, it forces Slider to re-render correctly */}
       <Slider key={banners.length} {...settings}>
         {banners.map((banner, index) => (
           <div
             key={banner._id}
-            // Added 'outline-none' to remove focus border on click
-            className={`transition-transform duration-300 relative outline-none ${activeSlide === index ? "scale-125 z-10" : ""
-              }`}
+            className={`transition-transform duration-300 relative outline-none ${
+              activeSlide === index ? "scale-125 z-10" : ""
+            }`}
           >
             <img
               src={`${cloudinary}/${banner.topImage}`}
@@ -122,7 +129,6 @@ const ImageCarousel = () => {
       </Slider>
 
       <div className="w-full mt-5 grid place-items-center -mb-5 md:-mb-0">
-        {/* Added check to ensure banner exists before accessing bottomImage */}
         {banners[activeSlide] && (
           <img
             className="h-[400px] object-contain transition-opacity duration-500"
